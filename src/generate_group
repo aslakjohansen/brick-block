@@ -1,0 +1,37 @@
+#!/usr/bin/env python3.5
+
+from rdflib import Graph, Namespace, URIRef, Literal
+import rdflib
+
+g = Graph()
+
+# source namespaces
+RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+OWL = Namespace('http://www.w3.org/2002/07/owl#')
+g.bind('rdf', RDF)
+g.bind('owl', OWL)
+
+# result namespace
+GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+g.bind('grp', GROUP)
+
+# port definition
+Port = GROUP['Port']
+g.add( (Port, RDF['type'], OWL['Class']) )
+
+# group definition
+Group = GROUP['Group']
+g.add( (Group, RDF['type'], OWL['Class']) )
+
+# within definition
+Within = GROUP['within']
+g.add( (Within, RDF['type'], OWL['ObjectProperty']) )
+
+# labeled definition
+Labeled = GROUP['labeled']
+g.add( (Labeled, RDF['type'], OWL['ObjectProperty']) )
+
+# store result
+print('Number of relations: %u' % (len(g)))
+g.serialize('brick_group.ttl', 'turtle')
+
