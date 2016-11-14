@@ -67,18 +67,5 @@ for name in brick:
 group = Group('brick_rotary_heat_exchanger.ttl')
 g2 = group.g
 
-print('dir')
-ds = sorted(dir(g2))
-for d in ds:
-    print(' - %s' % (d))
-
-print('nodes')
-ns = g2.all_nodes()
-for n in ns:
-    print(' - %s' % (n))
-
-print('graph')
-for s,p,o in g2:
-    print(' - %s    %s    %s' % (s,p,o))
-
 group.instantiate(g)
+
