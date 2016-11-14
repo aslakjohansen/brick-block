@@ -7,10 +7,11 @@ class Group:
         self.g.parse(filename, format='turtle')
     
     def instantiate (self, g):
-        print('diff')
-        for s,p,o in self.g:
-            if not (s,p,o) in g:
-                print(' * %s    %s    %s' % (s,p,o))
+        q = 'SELECT ?entity WHERE { ?group rdf:type grp:Group . ?entity grp:within ?group }'
+        entities = self.g.query(q)
+        print('entities:')
+        for entity in entities:
+            print(' - %s' % entity)
     
 
 ################################################################################
