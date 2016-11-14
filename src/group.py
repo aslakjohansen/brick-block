@@ -7,11 +7,41 @@ class Group:
         self.g.parse(filename, format='turtle')
     
     def instantiate (self, g):
-        q = 'SELECT ?entity WHERE { ?group rdf:type grp:Group . ?entity grp:within ?group }'
-        entities = self.g.query(q)
+        # find groups
+        q = 'SELECT ?group WHERE { ?group rdf:type grp:Group }'
+        groups = set(self.g.query(q))
+        print('groups:')
+        for group in groups:
+            print(' - %s' % group)
+        print('')
+        
+        # find ports
+        q = 'SELECT ?port WHERE { ?port rdf:type grp:Port }'
+        ports = set(self.g.query(q))
+        print('ports:')
+        for port in ports:
+            print(' - %s' % port)
+        print('')
+        
+        # find entities
+        q = 'SELECT ?entity ?group WHERE { ?group rdf:type grp:Group . ?entity grp:within ?group }'
+        entities = set(self.g.query(q))
         print('entities:')
-        for entity in entities:
-            print(' - %s' % entity)
+        for entity, group in entities:
+            print(' - %s of %s' % (entity, group))
+        print('')
+        
+        # find outer group
+        
+        # find outer ports
+        
+        # create translation table
+        
+        # copy entities
+        
+        # copy relations
+        
+        # create and return portmap
     
 
 ################################################################################
