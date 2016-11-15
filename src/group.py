@@ -8,11 +8,11 @@ class Group:
     
     def instantiate (self, g):
         # find ports
-        q = 'SELECT ?port WHERE { ?port rdf:type grp:Port }'
+        q = 'SELECT ?port ?description WHERE { ?port rdf:type grp:Port . ?port grp:labeled ?description }'
         ports = set(self.g.query(q))
         print('ports:')
-        for port in ports:
-            print(' - %s' % port)
+        for (port, description) in ports:
+            print(' - %s "%s"' % (port, description))
         print('')
         
         # find entities
@@ -31,14 +31,28 @@ class Group:
             print(' - %s' % group)
         print('')
         
-        # find outer group
-        outer_groups = filter(lambda group: group not in entities, groups)
+        # find outer groups
+        outer_groups = list(filter(lambda group: group not in entities, groups))
         print('outer groups:')
         for group in outer_groups:
             print(' - %s' % group)
         print('')
         
+        # find outer entities
+        outer_entities = list(filter(lambda entity: True in map(lambda group: (entity,group) in entitygroups,
+                                                                outer_groups),
+                                     entities))
+        print('outer entities:')
+        for entity in outer_entities:
+            print(' - %s' % entity)
+        print('')
+        
         # find outer ports
+        outer_ports = list(filter(lambda entity: entity in map(lambda port: port[0], ports), outer_entities))
+        print('outer ports:')
+        for port in outer_ports:
+            print(' - %s' % port)
+        print('')
         
         # create translation table
         
