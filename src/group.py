@@ -7,14 +7,6 @@ class Group:
         self.g.parse(filename, format='turtle')
     
     def instantiate (self, g):
-        # find groups
-        q = 'SELECT ?group WHERE { ?group rdf:type grp:Group }'
-        groups = set(self.g.query(q))
-        print('groups:')
-        for group in groups:
-            print(' - %s' % group)
-        print('')
-        
         # find ports
         q = 'SELECT ?port WHERE { ?port rdf:type grp:Port }'
         ports = set(self.g.query(q))
@@ -25,13 +17,26 @@ class Group:
         
         # find entities
         q = 'SELECT ?entity ?group WHERE { ?group rdf:type grp:Group . ?entity grp:within ?group }'
-        entities = set(self.g.query(q))
+        entitygroups = set(self.g.query(q))
+        entities = set(map(lambda entry: entry[0], entitygroups))
         print('entities:')
-        for entity, group in entities:
+        for entity, group in entitygroups:
             print(' - %s of %s' % (entity, group))
         print('')
         
+        # find groups
+        groups = set(map(lambda entry: entry[1], entitygroups))
+        print('groups:')
+        for group in groups:
+            print(' - %s' % group)
+        print('')
+        
         # find outer group
+        outer_groups = filter(lambda group: group not in entities, groups)
+        print('outer groups:')
+        for group in outer_groups:
+            print(' - %s' % group)
+        print('')
         
         # find outer ports
         
