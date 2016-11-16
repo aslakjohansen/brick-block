@@ -6,7 +6,38 @@ class Group:
         self.g = Graph()
         self.g.parse(filename, format='turtle')
     
-    def instantiate (self, g):
+    # pull apart an entity from the source graph
+    def decompose (self, entity):
+        paths = []
+        for (ns_prefix, path) in self.g.namespace_manager.namespaces():
+            if entity.startswith(path): paths.append((ns_prefix, path))
+        if len(paths)!=1:
+            sys.stderr.write('Error: "%s" decomposes into %u paths, not 1: %s\n' % (entity, len(paths), str(paths)))
+        namespace = paths[0][0]
+        ns_prefix = paths[0][1]
+        name = entity[len(namespace):]
+        print('~~~~~~~ types %s %s %s' % (str(type(entity)), str(type(namespace)), str(type(name))))
+        return namespace, name, ns_prefix
+    
+    # construct an entity in the target graph
+    def compose (self, g, target_namespace, taget_prefix, namespace, name, source_prefix):
+        ns = Namespace(target_namespace)
+        
+        # guard: make sure namepace is bound
+        if not namespace in map(lambda pair: pair[1], g):
+            g.bind(source_prefix, ns)
+        
+        # construct entity
+        return ns['' % (target_namespace)]
+    
+    # copy an entity from one graph to another
+    def copy_to_target (self, g, target_namespace, taget_prefix, entity):
+        namespace, name, source_prefix = self.decompose(entity)
+        print('%s %s %s' % (namespace, name, ns_prefix))
+        target_entity = self.compose(g, target_namespace, taget_prefix, namespace, name, source_prefix)
+        return target_entity
+    
+    def instantiate (self, g, target_namespace, target_prefix):
         # find ports
         q = 'SELECT ?port ?description WHERE { ?port rdf:type grp:Port . ?port grp:labeled ?description }'
         ports = set(self.g.query(q))
@@ -64,24 +95,26 @@ class Group:
         print(self.g.namespace_manager)
         print('')
         print('namespaces:')
-        for (prefix, path) in self.g.namespace_manager.namespaces():
+        for (ns_prefix, path) in self.g.namespace_manager.namespaces():
             print(' - %9s %s' % (prefix, path))
         print('')
         print(dir(self.g.namespace_manager.store.prefix))
-        print(self.g.namespace_manager.store.prefix.__class__)
+#        print(self.g.namespace_manager.store.prefix.__class__)
+#        print(self.g.namespace_manager.store['http://www.w3.org/2001/XMLSchema#'])
         print('')
         
         # copy entities and create translation table
         print('copy and build:')
         for entity in entities:
-            match = self.g.namespace_manager.store.prefix(entity)
-            print(match)
-            if not match:
-                sys.stderr.write('Error: Unable to lookup "%s"\n' % entity)
-                continue
-            
-            pfx, uri = match
-            print(' - %9s %s' % (pfx, uri))
+            self.copy_to_target(g, target_namespace, taget_prefix, entity)
+#            match = self.g.namespace_manager.store.prefix(entity)
+#            print(match)
+#            if not match:
+#                sys.stderr.write('Error: Unable to lookup "%s"\n' % entity)
+#                continue
+#            
+#            pfx, uri = match
+#            print(' - %9s %s' % (pfx, uri))
         print('')
         
         # copy relations
@@ -136,11 +169,15 @@ for name in brick:
     g.bind(brick[name]['prefix'], brick[name]['namespace'])
     globals()[name] = brick[name]['namespace']
 
+# target namespace
+EX = Namespace('http://buildsys.org/ontologies/Example#')
+g.bind('ex', EX)
+
 ################################################################################
 ###################################################################### main ####
 
 group = Group('brick_rotary_heat_exchanger.ttl')
 g2 = group.g
 
-group.instantiate(g)
+group.instantiate(g, ex, 'rhe1')
 
