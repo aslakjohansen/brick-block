@@ -55,8 +55,34 @@ class Group:
         print('')
         
         # create translation table
+        outer_port = outer_ports[0]
+        print(outer_port)
+        print(type(outer_port))
+        print(dir(outer_port))
+#        print(help(outer_port.n3))
+        print(self.g.namespaces)
+        print(self.g.namespace_manager)
+        print('')
+        print('namespaces:')
+        for (prefix, path) in self.g.namespace_manager.namespaces():
+            print(' - %9s %s' % (prefix, path))
+        print('')
+        print(dir(self.g.namespace_manager.store.prefix))
+        print(self.g.namespace_manager.store.prefix.__class__)
+        print('')
         
-        # copy entities
+        # copy entities and create translation table
+        print('copy and build:')
+        for entity in entities:
+            match = self.g.namespace_manager.store.prefix(entity)
+            print(match)
+            if not match:
+                sys.stderr.write('Error: Unable to lookup "%s"\n' % entity)
+                continue
+            
+            pfx, uri = match
+            print(' - %9s %s' % (pfx, uri))
+        print('')
         
         # copy relations
         
