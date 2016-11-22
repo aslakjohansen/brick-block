@@ -41,3 +41,10 @@ In order to differentiate the two flows we would have to subclass these flow rel
 
 ![Simple two-entity representation](figs/rhx.png)
 
+This relation integrates significantly better with SparQL (and similar querying languages) as one can find anything being thermically affected by `?heater` by the triplet pattern `?heater (feeds|affectsHeat)+ ?thing`. However, device is now represented by two entities and one relation; there is no single entity for referencing the device.
+
+In addition to solving this, the group also allows us to operate at a higher level of abstraction.
+
+![Comlex eleven-entity representation](figs/rhx_complex.png)
+
+
