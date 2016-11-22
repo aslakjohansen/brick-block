@@ -1,5 +1,7 @@
 # Context
 
+<!-- what do we hope to accomplish with this? -->
+
 <!-- function block disclaimer: this is a group -->
 Due to the foggy definition of a function block I have elected to call this a *group*. That name happens to mirror its functionality; it groups a subgraph. On the subgraph boundary a set of *ports* define its interface.
 
@@ -24,8 +26,18 @@ The question then becomes, how can we create such a group instance from a group 
 
 ## Group Template
 
-The group template should fundamentally be a Brick model. The set of ports belonging to a group which is not part of another group defines the interface. Ports are annotated with a label to allow us to name them.
+The group template should fundamentally be a Brick model. The set of ports belonging to an outer group (a group which is not part of another group) defines the interface. Ports are annotated with a label to allow us to name them individually.
 
 ## Group Instance
 
+
+# Example
+
+A rotary heat exchanger is a device which transfers heat (but not matter) between two flows of air. It does so by sending both through a rotating barrel with a large surface and and a high heat conductivity (think of a barrel filled up with copper pipes). How do we model this is Brick?
+
+![Single-entity representation](figs/rhx_single.png)
+
+In order to differentiate the two flows we would have to subclass these flow relations. This (i) moves the problem to the relations, (ii) exposes the complexities of the solution to the users, and (iii) makes it harder to write queries (having to differentiate between `feedsReturn` and `feedsSupply`). What happens if we use a two-node setup where each node represents a distinct flow and a relation between them specifies how one affects the other?
+
+![Simple two-entity representation](figs/rhx.png)
 
