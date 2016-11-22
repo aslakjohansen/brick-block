@@ -47,4 +47,19 @@ In addition to solving this, the group also allows us to operate at a higher lev
 
 ![Comlex eleven-entity representation](figs/rhx_complex.png)
 
+At first this seems like a lot of complexity. The entity count goes from two to eleven. What do we gain from increasing this complexity? It allows us to name a port of a group:
+
+```sparql
+SELECT ?port ?group
+WHERE {
+    ?port rdf:type grp:Port .
+    ?port grp:within ?group .
+    ?port grp:labeled "Source Input" .
+}
+
+```
+
+This in turn provides us with the fundamentals for reasoning about subgraphs and their interactions.
+
+![Comlex eleven-entity representation](figs/becoming.png)
 
