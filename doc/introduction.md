@@ -30,6 +30,10 @@ The group template should fundamentally be a Brick model. The set of ports belon
 
 ## Group Instance
 
+Given a graph template, generating a corresponding graph instance is the matter of:
+
+* 
+* Exposing the outer ports for composition
 
 # Example
 
@@ -45,7 +49,7 @@ This relation integrates significantly better with SparQL (and similar querying 
 
 In addition to solving this, the group also allows us to operate at a higher level of abstraction.
 
-![Comlex eleven-entity representation](figs/rhx_complex.png)
+![Complex eleven-entity representation](figs/rhx_complex.png)
 
 At first this seems like a lot of complexity. The entity count goes from two to eleven. What do we gain from increasing this complexity? It allows us to name a port of a group:
 
@@ -61,7 +65,7 @@ WHERE {
 
 This in turn provides us with the fundamentals for reasoning about subgraphs and their interactions.
 
-![Complex eleven-entity representation](figs/becoming.png)
+![Becoming a block](figs/becoming.png)
 
 At this point the subgraph can be seen as a block with an interface separating use from implementation. In short, it allows us to compose our graph (or subgraph) at block-level granularity.
 
