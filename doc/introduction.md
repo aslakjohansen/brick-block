@@ -11,7 +11,7 @@ The group can be derived by the following process:
 1. Start with an RDF graph
 2. Draw a circle encompassing the subgraph targeted for grouping
 3. Create a group entity (aka node)
-4. Make sure every entity within the circle has a within* path to the group entity
+4. Make sure every entity within the circle has a `within*` path to the group entity
 5. Ports are placed on the edge of the circle wherever en edge crosses it
 6. Each edge crossing a port is split in two
 7. Every port has a within edge to the group entity
