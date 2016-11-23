@@ -63,5 +63,5 @@ This in turn provides us with the fundamentals for reasoning about subgraphs and
 
 ![Complex eleven-entity representation](figs/becoming.png)
 
-
+At this point the subgraph can be seen as a block with an interface separating use from implementation. In short, it allows us to compose our graph (or subgraph) at block-level granularity.
 
