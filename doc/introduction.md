@@ -61,5 +61,7 @@ WHERE {
 
 This in turn provides us with the fundamentals for reasoning about subgraphs and their interactions.
 
-![Comlex eleven-entity representation](figs/becoming.png)
+![Complex eleven-entity representation](figs/becoming.png)
+
+
 
