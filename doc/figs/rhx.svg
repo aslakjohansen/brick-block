@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="255"
+   width="284"
    height="141"
-   viewBox="0 0 255 141"
+   viewBox="0 0 284 141"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="hx_solution2.svg">
+   sodipodi:docname="rhx.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,15 +25,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="101.12974"
-     inkscape:cy="72.083895"
+     inkscape:zoom="4"
+     inkscape:cx="158.17701"
+     inkscape:cy="92.215639"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1136"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -231,7 +231,7 @@
            y="862.36218"
            x="110"
            id="tspan4154-2-9"
-           sodipodi:role="line">Return flow</tspan></text>
+           sodipodi:role="line">Source flow</tspan></text>
       <text
          sodipodi:linespacing="125%"
          id="text4152-7-7-2"
@@ -242,7 +242,7 @@
            y="976.36218"
            x="110"
            id="tspan4154-2-9-2"
-           sodipodi:role="line">Supply flow</tspan></text>
+           sodipodi:role="line">Destination flow</tspan></text>
     </g>
   </g>
 </svg>
