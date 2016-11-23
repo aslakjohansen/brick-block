@@ -32,7 +32,10 @@ The group template should fundamentally be a Brick model. The set of ports belon
 
 Given a graph template, generating a corresponding graph instance is the matter of:
 
-* 
+* Make sure all type definitions of the template graph exist in the destination graph
+* Clone instance entities from template graph to destination graph, including
+  * Maintain a mapping from source instances to destination instances
+* Clone relations from template graph to destination graph using map
 * Exposing the outer ports for composition
 
 # Example
