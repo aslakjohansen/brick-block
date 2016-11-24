@@ -1,6 +1,7 @@
 # Context
 
 <!-- what do we hope to accomplish with this? -->
+This is intended to be a proof-of-concept implementation of a grouping mechanism for [Brick](http://brickschema.org) that allows for composition.
 
 <!-- function block disclaimer: this is a group -->
 Due to the foggy definition of a function block I have elected to call this a *group*. That name happens to mirror its functionality; it groups a subgraph. On the subgraph boundary a set of *ports* define its interface.
