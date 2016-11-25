@@ -37,7 +37,34 @@ class Group:
         target_entity = self.compose(g, target_namespace, taget_prefix, namespace, name, source_prefix)
         return target_entity
     
-    def instantiate (self, g, target_namespace, target_prefix):
+    def instantiate (self, target_namespace, target_prefix):
+        g = Graph()
+        
+        # fetch list of entities
+        entities = set()
+        for sub, pred, obj in self.g:
+            entities.add(sub)
+            entities.add(obj)
+        entities = sorted(entities)
+        
+        # find definitions
+        q = 'SELECT DISTINCT ?entity WHERE { {?entity rdfs:subClassOf*/rdf:type owl:Class} union {?entity rdfs:subClassOf*/rdf:type owl:ObjectProperty} }'
+        class_entities = sorted(set(self.g.query(q)))
+        print('class instances:')
+        for entity in class_entities:
+            print(' - class entity: %s' % entity)
+        
+        # copy definitions
+        for sub, pred, obj in self.g:
+            if sub in class_entities or obj in class_entities:
+                g.add( (sub, pred, obj) )
+        
+        
+        
+        return g
+        
+        ########################################################################
+        
         # find ports
         q = 'SELECT ?port ?description WHERE { ?port rdf:type grp:Port . ?port grp:labeled ?description }'
         ports = set(self.g.query(q))
@@ -179,5 +206,5 @@ g.bind('ex', EX)
 group = Group('brick_rotary_heat_exchanger.ttl')
 g2 = group.g
 
-group.instantiate(g, ex, 'rhe1')
+g += group.instantiate(EX, 'rhe1')
 
