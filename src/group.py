@@ -46,21 +46,33 @@ class Group:
             entities.add(sub)
             entities.add(obj)
         entities = sorted(entities)
+        for t in set(map(lambda entity: str(type(entity)), entities)):
+            print('entity type: %s' % t)
+#        return
         
         # find definitions
-        q = 'SELECT DISTINCT ?entity WHERE { {?entity rdfs:subClassOf*/rdf:type owl:Class} union {?entity rdfs:subClassOf*/rdf:type owl:ObjectProperty} }'
-        class_entities = sorted(set(self.g.query(q)))
-        print('class instances:')
+        q = 'SELECT DISTINCT ?entity WHERE { {?entity rdfs:subClassOf*/rdf:type owl:Class} union {?entity rdfs:subClassOf*/rdf:type owl:ObjectProperty} union { FILTER(isLiteral(?entity)) } }'
+#        q = 'SELECT DISTINCT ?entity WHERE { FILTER(isLiteral(?entity)) }'
+        class_entities = sorted(set(map(lambda row: row[0], self.g.query(q))))
+        print('class entities:')
         for entity in class_entities:
-            print(' - class entity: %s' % entity)
+            print(' - class entity: %s / %s' % (entity, str(type(entity))))
         
         # copy definitions
         for sub, pred, obj in self.g:
             if sub in class_entities or obj in class_entities:
                 g.add( (sub, pred, obj) )
         
+        # find literals
+        literal_entities = set(filter(lambda entity: type(entity)==Literal, entities))
         
-        
+        # find instances
+        instance_entities = list(set(entities) - set(class_entities) - set(literal_entities))
+        print('instance entities (%u = %u - %u):' % (len(instance_entities), len(entities), len(class_entities)))
+        for entity in instance_entities:
+            print(' - instance entity: %s / %s' % (entity, str(type(entity))))
+        print('types: %s %s' % (str(type(entities[0])), str(type(class_entities[0]))))
+#        print('types: %s %s' % (entities, str(class_entities[10][0])))
         return g
         
         ########################################################################
@@ -183,12 +195,14 @@ g = Graph()
 
 # general namespaces
 RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
 OWL   = Namespace('http://www.w3.org/2002/07/owl#')
 GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
 g.parse('brick_group.ttl', format='turtle')
-g.bind('rdf', RDF)
-g.bind('owl', OWL)
-g.bind('grp', GROUP)
+g.bind('rdf' , RDF)
+g.bind('rdfs', RDFS)
+g.bind('owl' , OWL)
+g.bind('grp' , GROUP)
 
 # brick namespace
 for name in brick:
