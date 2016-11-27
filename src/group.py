@@ -1,4 +1,4 @@
-from rdflib import Graph, Namespace, URIRef, Literal
+from rdflib import Graph, Namespace, URIRef, Literal, BNode
 import sys
 
 class Group:
@@ -66,8 +66,11 @@ class Group:
         # find literals
         literal_entities = set(filter(lambda entity: type(entity)==Literal, entities))
         
+        # find bnodes
+        bnode_entities = set(filter(lambda entity: type(entity)==BNode, entities))
+        
         # find instances
-        instance_entities = list(set(entities) - set(class_entities) - set(literal_entities))
+        instance_entities = list(set(entities) - set(class_entities) - set(literal_entities) - set(bnode_entities))
         print('instance entities (%u = %u - %u):' % (len(instance_entities), len(entities), len(class_entities)))
         for entity in instance_entities:
             print(' - instance entity: %s / %s' % (entity, str(type(entity))))
