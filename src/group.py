@@ -51,7 +51,14 @@ class Group:
 #        return
         
         # find definitions
-        q = 'SELECT DISTINCT ?entity WHERE { {?entity rdfs:subClassOf*/rdf:type owl:Class} union {?entity rdfs:subClassOf*/rdf:type owl:ObjectProperty} union { FILTER(isLiteral(?entity)) } }'
+        q = '''
+        SELECT DISTINCT ?entity
+        WHERE {
+            {?entity rdfs:subClassOf*/rdf:type owl:Class} union
+            {?entity rdfs:subClassOf*/rdf:type owl:ObjectProperty} union
+            {?entity rdfs:subClassOf*/rdf:type owl:AnnotationProperty}
+        }
+        '''
 #        q = 'SELECT DISTINCT ?entity WHERE { FILTER(isLiteral(?entity)) }'
         class_entities = sorted(set(map(lambda row: row[0], self.g.query(q))))
 #        print('class entities:')
