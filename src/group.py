@@ -60,15 +60,10 @@ class Group:
         }
         '''
 #        q = 'SELECT DISTINCT ?entity WHERE { FILTER(isLiteral(?entity)) }'
-        class_entities = sorted(set(map(lambda row: row[0], self.g.query(q))))
+        class_entities = set(map(lambda row: row[0], self.g.query(q)))
 #        print('class entities:')
 #        for entity in class_entities:
 #            print(' - class entity: %s / %s' % (entity, str(type(entity))))
-        
-        # copy definitions
-        for sub, pred, obj in self.g:
-            if sub in class_entities or obj in class_entities:
-                g.add( (sub, pred, obj) )
         
         # find literals
         literal_entities = set(filter(lambda entity: type(entity)==Literal, entities))
@@ -82,13 +77,22 @@ class Group:
         # find brickroots
         brickroot_entities = set(filter(lambda entity: str(entity) in ['http://buildsys.org/ontologies/Brick', 'http://buildsys.org/ontologies/BrickFrame', 'http://buildsys.org/ontologies/BrickTag'], entities))
         
+        # define definitions
+        definition_entities = sorted(class_entities|literal_entities|bnode_entities|owl_entities|brickroot_entities)
+        
         # find instances
-        instance_entities = list(set(entities) - set(class_entities) - set(literal_entities) - set(bnode_entities) - set(owl_entities) - set(brickroot_entities))
-        print('instance entities (%u = %u - %u - %u - %u - %u - %u):' % (len(instance_entities), len(entities), len(class_entities), len(literal_entities), len(bnode_entities), len(owl_entities), len(brickroot_entities)))
+        instance_entities = list(set(entities) - set(definition_entities))
+        print('instance entities:')
         for entity in instance_entities:
             print(' - instance entity: %s /\n                    %s' % (entity, str(type(entity))))
 #        print('types: %s %s' % (str(type(entities[0])), str(type(class_entities[0]))))
 #        print('types: %s %s' % (entities, str(class_entities[10][0])))
+        
+        # process
+        for sub, pred, obj in self.g:
+            if sub in class_entities or obj in class_entities:
+                g.add( (sub, pred, obj) )
+        
         return g
         
         ########################################################################
