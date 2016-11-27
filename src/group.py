@@ -78,9 +78,10 @@ class Group:
         print('instance entities:')
         for entity in instance_entities:
             print(' - instance entity: %s /\n                    %s' % (entity, str(type(entity))))
+        
         # process
         for sub, pred, obj in self.g:
-            if sub in class_entities or obj in class_entities:
+            if sub in definition_entities or obj in definition_entities:
                 g.add( (sub, pred, obj) )
         
         return g
