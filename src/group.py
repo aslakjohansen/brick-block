@@ -69,9 +69,12 @@ class Group:
         # find bnodes
         bnode_entities = set(filter(lambda entity: type(entity)==BNode, entities))
         
+        # find owls
+        owl_entities = set(filter(lambda entity: str(entity).startswith('http://www.w3.org/2002/07/owl#'), entities))
+        
         # find instances
-        instance_entities = list(set(entities) - set(class_entities) - set(literal_entities) - set(bnode_entities))
-        print('instance entities (%u = %u - %u - %u - %u):' % (len(instance_entities), len(entities), len(class_entities), len(literal_entities), len(bnode_entities)))
+        instance_entities = list(set(entities) - set(class_entities) - set(literal_entities) - set(bnode_entities) - set(owl_entities))
+        print('instance entities (%u = %u - %u - %u - %u - %u):' % (len(instance_entities), len(entities), len(class_entities), len(literal_entities), len(bnode_entities), len(owl_entities)))
         for entity in instance_entities:
             print(' - instance entity: %s /\n                    %s' % (entity, str(type(entity))))
 #        print('types: %s %s' % (str(type(entities[0])), str(type(class_entities[0]))))
