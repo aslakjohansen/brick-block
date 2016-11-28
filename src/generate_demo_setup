@@ -72,22 +72,22 @@ for port in exchanger['ports']:
     print('exchanger: %s ↦ %s' % (port, exchanger['ports'][port]))
 
 # names
-temp_pi = DEMO['temp_pi']
-temp_po = DEMO['temp_po']
-temp_si = DEMO['temp_si']
-temp_so = DEMO['temp_so']
+sensor_pi = DEMO['sensor_pi']
+sensor_po = DEMO['sensor_po']
+sensor_si = DEMO['sensor_si']
+sensor_so = DEMO['sensor_so']
 
 # definitions
-g.add( (temp_pi, RDF.type, BRICK['Temperature_Sensor']) )
-g.add( (temp_po, RDF.type, BRICK['Temperature_Sensor']) )
-g.add( (temp_si, RDF.type, BRICK['Temperature_Sensor']) )
-g.add( (temp_so, RDF.type, BRICK['Temperature_Sensor']) )
+g.add( (sensor_pi, RDF.type, BRICK['Temperature_Sensor']) )
+g.add( (sensor_po, RDF.type, BRICK['Humidity_Sensor']) )
+g.add( (sensor_si, RDF.type, BRICK['Pressure_Sensor']) )
+g.add( (sensor_so, RDF.type, BRICK['Flow_Sensor']) )
 
 # feeds relationships
-g.add( (temp_pi                               , BRICKFRAME.feeds, exchanger['ports']['Primary Input']) )
-g.add( (exchanger['ports']['Primary Output']  , BRICKFRAME.feeds, temp_po) )
-g.add( (temp_si                               , BRICKFRAME.feeds, exchanger['ports']['Secondary Input']) )
-g.add( (exchanger['ports']['Secondary Output'], BRICKFRAME.feeds, temp_so) )
+g.add( (sensor_pi                               , BRICKFRAME.feeds, exchanger['ports']['Primary Input']) )
+g.add( (exchanger['ports']['Primary Output']  , BRICKFRAME.feeds, sensor_po) )
+g.add( (sensor_si                               , BRICKFRAME.feeds, exchanger['ports']['Secondary Input']) )
+g.add( (exchanger['ports']['Secondary Output'], BRICKFRAME.feeds, sensor_so) )
 
 # store result
 print('Number of relations: %u' % (len(g)))
