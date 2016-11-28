@@ -1,0 +1,114 @@
+#!/usr/bin/env python3.5
+
+from rdflib import Graph, Namespace, URIRef, Literal
+from group import Group
+import sys
+
+################################################################################
+##################################################################### intro ####
+
+# parts of brick to load
+brick = {
+    'BRICK': {
+        'file': 'Brick.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/Brick#'),
+        'prefix': 'brick',
+    },
+    'BRICKFRAME': {
+        'file': 'BrickFrame.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/BrickFrame#'),
+        'prefix': 'bf',
+    },
+    'BRICKTAG': {
+        'file': 'BrickTag.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/BrickTag#'),
+        'prefix': 'btag',
+    },
+}
+
+# guard: command line arguments
+if len(sys.argv)!=2:
+    print('Syntax: %s PATH_TO_BRICK' % sys.argv[0])
+    print('        %s ../../GroundTruth/Brick' % sys.argv[0])
+    exit(1)
+brickpath = sys.argv[1]
+
+# get started on the graph
+g = Graph()
+
+# general namespaces
+RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
+OWL   = Namespace('http://www.w3.org/2002/07/owl#')
+GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+g.parse('brick_group.ttl', format='turtle')
+g.bind('rdf' , RDF)
+g.bind('rdfs', RDFS)
+g.bind('owl' , OWL)
+g.bind('grp' , GROUP)
+
+# brick namespace
+for name in brick:
+    g.parse('%s/%s' % (brickpath, brick[name]['file']), format='turtle')
+    g.bind(brick[name]['prefix'], brick[name]['namespace'])
+    globals()[name] = brick[name]['namespace']
+
+################################################################################
+##################################################################### group ####
+
+# seq rotary heat exchanger namespace
+TBTRHX = Namespace('http://buildsys.org/ontologies/seq_rotary_heat_exchanger#')
+g.bind('tbtrhx', TBTRHX)
+
+# generate group
+group   = TBTRHX['group']
+port_pi = TBTRHX['port/pi']
+port_po = TBTRHX['port/po']
+port_si = TBTRHX['port/si']
+port_so = TBTRHX['port/so']
+g.add( (group  , RDF.type, GROUP.Group) )
+g.add( (port_pi, RDF.type, GROUP.Port) )
+g.add( (port_po, RDF.type, GROUP.Port) )
+g.add( (port_si, RDF.type, GROUP.Port) )
+g.add( (port_so, RDF.type, GROUP.Port) )
+g.add( (group  , GROUP.labeled, Literal('Rotary Heat Exchanger Two-by-Two')) )
+g.add( (port_pi, GROUP.labeled, Literal('Primary Input')) )
+g.add( (port_po, GROUP.labeled, Literal('Primary Output')) )
+g.add( (port_si, GROUP.labeled, Literal('Secondary Input')) )
+g.add( (port_so, GROUP.labeled, Literal('Secondary Output')) )
+
+################################################################################
+###################################################################### main ####
+
+srhx_group = Group('brick_seq_rotary_heat_exchanger.ttl')
+
+# instantiate first rotary heat exchanger
+srhe1 = srhx_group.instantiate(TBTRHX, 'rhe1')
+g += srhe1['graph']
+for port in srhe1['ports']:
+    print('srhe1: %s ↦ %s' % (port, srhe1['ports'][port]))
+
+# instantiate second rotary heat exchanger
+srhe2 = srhx_group.instantiate(TBTRHX, 'rhe2')
+g += srhe2['graph']
+for port in srhe2['ports']:
+    print('srhe2: %s ↦ %s' % (port, srhe2['ports'][port]))
+
+# feeds relationships
+g.add( (port_pi                           , BRICKFRAME.feeds, srhe1['ports']['Primary Input']) )
+g.add( (port_pi                           , BRICKFRAME.feeds, srhe2['ports']['Primary Input']) )
+g.add( (srhe1['ports']['Primary Output']  , BRICKFRAME.feeds, port_po) )
+g.add( (srhe2['ports']['Primary Output']  , BRICKFRAME.feeds, port_po) )
+g.add( (port_si                           , BRICKFRAME.feeds, srhe1['ports']['Secondary Input']) )
+g.add( (port_si                           , BRICKFRAME.feeds, srhe2['ports']['Secondary Input']) )
+g.add( (srhe1['ports']['Secondary Output'], BRICKFRAME.feeds, port_so) )
+g.add( (srhe2['ports']['Secondary Output'], BRICKFRAME.feeds, port_so) )
+
+# generate grouping relationships
+for entity in [port_pi, port_po, port_si, port_so, srhe1['group'], srhe2['group']]:
+    g.add( (entity, GROUP.within, group) )
+
+# store result
+print('Number of relations: %u' % (len(g)))
+g.serialize('brick_tbt_rotary_heat_exchanger.ttl', 'turtle')
+
