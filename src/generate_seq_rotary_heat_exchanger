@@ -95,7 +95,6 @@ for port in rhe2['ports']:
     print('rhe2: %s ↦ %s' % (port, rhe2['ports'][port]))
 
 # feeds relationships
-print(rhe2['ports'].keys())
 g.add( (port_pi                          , BRICKFRAME.feeds, rhe2['ports']['Primary Input']) )
 g.add( (rhe2['ports']['Primary Output']  , BRICKFRAME.feeds, rhe1['ports']['Primary Input']) )
 g.add( (rhe1['ports']['Primary Output']  , BRICKFRAME.feeds, port_po) )
