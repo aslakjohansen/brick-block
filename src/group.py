@@ -75,67 +75,73 @@ class Group:
             if sub in definition_entities or obj in definition_entities:
                 g.add( (mapping[sub], pred, mapping[obj]) )
         
-        return g
+        # locate ports
+        ports = {}
+        
+        return {
+            'graph': g,
+            'ports': ports,
+        }
     
 
-################################################################################
-##################################################################### intro ####
+#################################################################################
+###################################################################### intro ####
 
-# parts of brick to load
-brick = {
-    'BRICK': {
-        'file': 'Brick.ttl',
-        'namespace': Namespace('http://buildsys.org/ontologies/Brick#'),
-        'prefix': 'brick',
-    },
-    'BRICKFRAME': {
-        'file': 'BrickFrame.ttl',
-        'namespace': Namespace('http://buildsys.org/ontologies/BrickFrame#'),
-        'prefix': 'bf',
-    },
-    'BRICKTAG': {
-        'file': 'BrickTag.ttl',
-        'namespace': Namespace('http://buildsys.org/ontologies/BrickTag#'),
-        'prefix': 'btag',
-    },
-}
+## parts of brick to load
+#brick = {
+#    'BRICK': {
+#        'file': 'Brick.ttl',
+#        'namespace': Namespace('http://buildsys.org/ontologies/Brick#'),
+#        'prefix': 'brick',
+#    },
+#    'BRICKFRAME': {
+#        'file': 'BrickFrame.ttl',
+#        'namespace': Namespace('http://buildsys.org/ontologies/BrickFrame#'),
+#        'prefix': 'bf',
+#    },
+#    'BRICKTAG': {
+#        'file': 'BrickTag.ttl',
+#        'namespace': Namespace('http://buildsys.org/ontologies/BrickTag#'),
+#        'prefix': 'btag',
+#    },
+#}
 
-# guard: command line arguments
-if len(sys.argv)!=2:
-    print('Syntax: %s PATH_TO_BRICK' % sys.argv[0])
-    print('        %s ../../GroundTruth/Brick' % sys.argv[0])
-    exit(1)
-brickpath = sys.argv[1]
+## guard: command line arguments
+#if len(sys.argv)!=2:
+#    print('Syntax: %s PATH_TO_BRICK' % sys.argv[0])
+#    print('        %s ../../GroundTruth/Brick' % sys.argv[0])
+#    exit(1)
+#brickpath = sys.argv[1]
 
-# get started on the graph
-g = Graph()
+## get started on the graph
+#g = Graph()
 
-# general namespaces
-RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
-OWL   = Namespace('http://www.w3.org/2002/07/owl#')
-GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
-g.parse('brick_group.ttl', format='turtle')
-g.bind('rdf' , RDF)
-g.bind('rdfs', RDFS)
-g.bind('owl' , OWL)
-g.bind('grp' , GROUP)
+## general namespaces
+#RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+#RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
+#OWL   = Namespace('http://www.w3.org/2002/07/owl#')
+#GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+#g.parse('brick_group.ttl', format='turtle')
+#g.bind('rdf' , RDF)
+#g.bind('rdfs', RDFS)
+#g.bind('owl' , OWL)
+#g.bind('grp' , GROUP)
 
-# brick namespace
-for name in brick:
-    g.parse('%s/%s' % (brickpath, brick[name]['file']), format='turtle')
-    g.bind(brick[name]['prefix'], brick[name]['namespace'])
-    globals()[name] = brick[name]['namespace']
+## brick namespace
+#for name in brick:
+#    g.parse('%s/%s' % (brickpath, brick[name]['file']), format='turtle')
+#    g.bind(brick[name]['prefix'], brick[name]['namespace'])
+#    globals()[name] = brick[name]['namespace']
 
-# target namespace
-EX = Namespace('http://buildsys.org/ontologies/Example#')
-g.bind('ex', EX)
+## target namespace
+#EX = Namespace('http://buildsys.org/ontologies/Example#')
+#g.bind('ex', EX)
 
-################################################################################
-###################################################################### main ####
+#################################################################################
+####################################################################### main ####
 
-group = Group('brick_rotary_heat_exchanger.ttl')
-g2 = group.g
+#group = Group('brick_rotary_heat_exchanger.ttl')
+#g2 = group.g
 
-g += group.instantiate(EX, 'rhe1')
+#g += group.instantiate(EX, 'rhe1')
 
