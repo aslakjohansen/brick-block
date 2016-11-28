@@ -26,6 +26,19 @@ The [generate_tbt_rotary_heat_exchanger](https://github.com/aslakjohansen/brick-
 
 **Note:** The labeling of ports has been omitted due to space constraints.
 
+## Demo Setup
+
+The [generate_demo_setup](https://github.com/aslakjohansen/brick-block/blob/master/src/generate_demo_setup) script builds on this to instantiate one of these constructs and connect a selection of sensors to its ports:
+
+![Demo Setup](figs/demo_context_rhx.png)
+
+**Note:** Input and output ports of the outer group have been flipped compared to the previous figures. The mapping is:
+
+* **Primary Input** is a `Temperature_Sensor`
+* **Primary Output** is a `Humidity_Sensor`
+* **Secondary Input** is a `Pressure_Sensor`
+* **Secondary Output** is a `Flow_Sensor`
+
 ## Results
 
 
