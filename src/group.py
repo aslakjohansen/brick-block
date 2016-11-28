@@ -18,7 +18,7 @@ class Group:
         namespace = paths[0][0]
         ns_prefix = paths[0][1]
         name = entity[len(namespace):]
-        print('~~~~~~~ types %s %s %s' % (str(type(entity)), str(type(namespace)), str(type(name))))
+#        print('~~~~~~~ types %s %s %s' % (str(type(entity)), str(type(namespace)), str(type(name))))
         return namespace, name, ns_prefix
     
     def instantiate (self, target_namespace, target_prefix):
@@ -60,9 +60,9 @@ class Group:
         
         # find instances
         instance_entities = list(set(entities) - set(definition_entities))
-        print('instance entities:')
-        for entity in instance_entities:
-            print(' - instance entity: %s /\n                    %s' % (entity, str(type(entity))))
+#        print('instance entities:')
+#        for entity in instance_entities:
+#            print(' - instance entity: %s /\n                    %s' % (entity, str(type(entity))))
         
         # process
         mapping = {}
@@ -82,7 +82,6 @@ class Group:
         for sub, pred, obj in g:
             if pred==GROUP.within:
                 group_tree[sub] = obj
-        print(group_tree)
         roots = list(set(filter(lambda val: val[1],
                                 map(lambda key: (group_tree[key], not group_tree[key] in group_tree),
                                     group_tree.keys()))))
