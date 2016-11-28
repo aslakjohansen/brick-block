@@ -61,10 +61,18 @@ g.bind('ex', EX)
 ###################################################################### main ####
 
 group = Group('brick_rotary_heat_exchanger.ttl')
+
 rhe1 = group.instantiate(EX, 'rhe1')
-
 g += rhe1['graph']
-
 for port in rhe1['ports']:
-    print('port: %s ↦ %s' % (port, rhe1['ports'][port]))
+    print('rhe1: %s ↦ %s' % (port, rhe1['ports'][port]))
+
+rhe2 = group.instantiate(EX, 'rhe2')
+g += rhe2['graph']
+for port in rhe2['ports']:
+    print('rhe2: %s ↦ %s' % (port, rhe2['ports'][port]))
+
+# store result
+print('Number of relations: %u' % (len(g)))
+g.serialize('brick_seq_rotary_heat_exchanger.ttl', 'turtle')
 
