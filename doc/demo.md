@@ -10,7 +10,7 @@
 
 ## 2x2 Rotary Heat Exchanger Setup
 
-![2x2 Rotary Heat Exchanger Setup](figs/demo_seq_rhx.png)
+![2x2 Rotary Heat Exchanger Setup](figs/demo_tbt_rhx.png)
 
 ## Results
 
