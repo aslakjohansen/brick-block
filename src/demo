@@ -115,3 +115,36 @@ for i in range(len(result)):
     print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
 print('')
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+print('Demo 4: find rotary heat exchangers in sequence')
+q = '''
+SELECT ?rhx1 ?rhx2
+WHERE {
+    ?rhx1 rdf:type grp:Group .
+    ?rhx1 grp:labeled "Rotary Heat Exchanger" .
+    ?rhx1po rdf:type grp:Port .
+    ?rhx1po grp:within ?rhx1 .
+    ?rhx1po grp:labeled "Primary Output" .
+    ?rhx1si rdf:type grp:Port .
+    ?rhx1si grp:within ?rhx1 .
+    ?rhx1si grp:labeled "Secondary Input" .
+    
+    ?rhx2 rdf:type grp:Group .
+    ?rhx2 grp:labeled "Rotary Heat Exchanger" .
+    ?rhx2pi rdf:type grp:Port .
+    ?rhx2pi grp:within ?rhx2 .
+    ?rhx2pi grp:labeled "Primary Input" .
+    ?rhx2so rdf:type grp:Port .
+    ?rhx2so grp:within ?rhx2 .
+    ?rhx2so grp:labeled "Secondary Output" .
+    
+    ?rhx1po bf:feeds+ ?rhx2pi .
+    ?rhx2so bf:feeds+ ?rhx1si
+}
+'''
+result = list(g.query(q))
+for i in range(len(result)):
+    print(' (%u) %s -> %s' % (i+1, result[i][0], result[i][1]))
+print('')
+
