@@ -65,3 +65,6 @@ rhe1 = group.instantiate(EX, 'rhe1')
 
 g += rhe1['graph']
 
+for port in rhe1['ports']:
+    print('port: %s ↦ %s' % (port, rhe1['ports'][port]))
+

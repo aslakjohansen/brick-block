@@ -1,6 +1,8 @@
 from rdflib import Graph, Namespace, URIRef, Literal, BNode
 import sys
 
+GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+
 class Group:
     def __init__ (self, filename):
         self.g = Graph()
@@ -21,6 +23,7 @@ class Group:
     
     def instantiate (self, target_namespace, target_prefix):
         g = Graph()
+        g.bind('grp', GROUP)
         
         # fetch list of entities
         entities = set()
@@ -72,11 +75,37 @@ class Group:
                         namespace, name, source_prefix = self.decompose(entity)
                         newentity = target_namespace['%s/%s' % (target_prefix , name)]
                     mapping[entity] = newentity
-            if sub in definition_entities or obj in definition_entities:
-                g.add( (mapping[sub], pred, mapping[obj]) )
+            g.add( (mapping[sub], pred, mapping[obj]) )
+        
+        # find outer group
+        group_tree = {}
+        for sub, pred, obj in g:
+            if pred==GROUP.within:
+                group_tree[sub] = obj
+        print(group_tree)
+        roots = list(set(filter(lambda val: val[1],
+                                map(lambda key: (group_tree[key], not group_tree[key] in group_tree),
+                                    group_tree.keys()))))
+        if len(roots)!=1:
+            print('Error: Group instantiation resulted in %u root(s), expected 1:' % len(roots))
+            for i in range(len(roots)):
+                print(' %u: %s' % (i, roots[i]))
+            sys.exit()
+        outer_group = roots[0][0]
         
         # locate ports
+        q = '''
+        SELECT DISTINCT ?portname ?port
+        WHERE {
+            ?port rdf:type grp:Port .
+            ?port grp:labeled ?portname
+        }
+        '''
+        r = g.query(q)
         ports = {}
+        for portname, port in r:
+            if (port, GROUP.within, outer_group) in g:
+                ports[portname] = port
         
         return {
             'graph': g,
