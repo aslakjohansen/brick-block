@@ -103,7 +103,7 @@ g.add( (rhe1['ports']['Secondary Output'], BRICKFRAME.feeds, rhe2['ports']['Seco
 g.add( (rhe2['ports']['Secondary Output'], BRICKFRAME.feeds, port_so) )
 
 # generate grouping relationships
-for entity in [port_pi, port_po, port_si, port_so]:
+for entity in [port_pi, port_po, port_si, port_so, rhe1['group'], rhe2['group']]:
     g.add( (entity, GROUP.within, group) )
 
 # store result

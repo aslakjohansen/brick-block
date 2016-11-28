@@ -109,6 +109,7 @@ class Group:
         return {
             'graph': g,
             'ports': ports,
+            'group': outer_group,
         }
     
 
