@@ -57,7 +57,7 @@ for name in brick:
 ##################################################################### group ####
 
 # seq rotary heat exchanger namespace
-TBTRHX = Namespace('http://buildsys.org/ontologies/seq_rotary_heat_exchanger#')
+TBTRHX = Namespace('http://buildsys.org/ontologies/tbt_rotary_heat_exchanger#')
 g.bind('tbtrhx', TBTRHX)
 
 # generate group

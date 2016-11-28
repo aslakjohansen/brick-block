@@ -56,40 +56,41 @@ for name in brick:
 ################################################################################
 ##################################################################### group ####
 
-# seq rotary heat exchanger namespace
-DEMO = Namespace('http://buildsys.org/ontologies/demo#')
-g.bind('demo', DEMO)
+g.parse('demo.ttl', format='turtle')
 
 ################################################################################
 ###################################################################### main ####
 
-exchanger_group = Group('brick_tbt_rotary_heat_exchanger.ttl')
+print('Demo 1: sensors which are fed by a temperature sensor')
+q = '''
+SELECT DISTINCT ?sensor_type ?sensor
+WHERE {
+    ?temp rdf:type brick:Temperature_Sensor .
+    ?temp bf:feeds+ ?sensor .
+    ?sensor rdf:type ?sensor_type .
+    ?sensor_type rdfs:subClassOf+ brick:Sensor
+}
+'''
+result = list(g.query(q))
+for i in range(len(result)):
+    print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
+print('')
 
-# instantiate rotary heat exchanger complex
-exchanger = exchanger_group.instantiate(DEMO, 'exchanger_complex')
-g += exchanger['graph']
-for port in exchanger['ports']:
-    print('exchanger: %s ↦ %s' % (port, exchanger['ports'][port]))
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# names
-sensor_pi = DEMO['sensor_pi']
-sensor_po = DEMO['sensor_po']
-sensor_si = DEMO['sensor_si']
-sensor_so = DEMO['sensor_so']
-
-# definitions
-g.add( (sensor_pi, RDF.type, BRICK['Temperature_Sensor']) )
-g.add( (sensor_po, RDF.type, BRICK['Humidity_Sensor']) )
-g.add( (sensor_si, RDF.type, BRICK['Pressure_Sensor']) )
-g.add( (sensor_so, RDF.type, BRICK['Flow_Sensor']) )
-
-# feeds relationships
-g.add( (sensor_pi                               , BRICKFRAME.feeds, exchanger['ports']['Primary Input']) )
-g.add( (exchanger['ports']['Primary Output']  , BRICKFRAME.feeds, sensor_po) )
-g.add( (sensor_si                               , BRICKFRAME.feeds, exchanger['ports']['Secondary Input']) )
-g.add( (exchanger['ports']['Secondary Output'], BRICKFRAME.feeds, sensor_so) )
-
-# store result
-print('Number of relations: %u' % (len(g)))
-g.serialize('demo.ttl', 'turtle')
+print('Demo 2: labels of groups which are fed by a temperature sensor')
+q = '''
+SELECT DISTINCT ?label ?group
+WHERE {
+    ?temp rdf:type brick:Temperature_Sensor .
+    ?temp bf:feeds+ ?port .
+    ?port rdf:type grp:Port .
+    ?port grp:within ?group .
+    ?group grp:labeled ?label
+}
+'''
+result = list(g.query(q))
+for i in range(len(result)):
+    print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
+print('')
 
