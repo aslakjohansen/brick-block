@@ -1,4 +1,6 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python
+
+# NOTE: Demo 3 triggers a bug in the rdflib when running on python 3.5. It could be this: https://github.com/RDFLib/rdflib/issues/617
 
 from rdflib import Graph, Namespace, URIRef, Literal
 from group import Group
@@ -41,11 +43,13 @@ RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
 OWL   = Namespace('http://www.w3.org/2002/07/owl#')
 GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+RHX   = Namespace('http://buildsys.org/ontologies/rotary_heat_exchanger#')
 g.parse('brick_group.ttl', format='turtle')
 g.bind('rdf' , RDF)
 g.bind('rdfs', RDFS)
 g.bind('owl' , OWL)
 g.bind('grp' , GROUP)
+g.bind('rhx' , RHX)
 
 # brick namespace
 for name in brick:
@@ -65,8 +69,8 @@ print('Demo 1: sensors which are fed by a temperature sensor')
 q = '''
 SELECT DISTINCT ?sensor_type ?sensor
 WHERE {
-    ?temp rdf:type brick:Temperature_Sensor .
-    ?temp bf:feeds+ ?sensor .
+    ?temp_sensor rdf:type brick:Temperature_Sensor .
+    ?temp_sensor bf:feeds+ ?sensor .
     ?sensor rdf:type ?sensor_type .
     ?sensor_type rdfs:subClassOf+ brick:Sensor
 }
@@ -87,6 +91,23 @@ WHERE {
     ?port rdf:type grp:Port .
     ?port grp:within ?group .
     ?group grp:labeled ?label
+}
+'''
+result = list(g.query(q))
+for i in range(len(result)):
+    print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
+print('')
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+print('Demo 3: which sensors affects the flow sensor')
+q = '''
+SELECT DISTINCT ?sensor_type ?sensor
+WHERE {
+    ?flow_sensor rdf:type brick:Flow_Sensor .
+    ?sensor (rhx:affects|bf:feeds)+ ?flow_sensor .
+    ?sensor rdf:type ?sensor_type .
+    ?sensor_type rdfs:subClassOf+ brick:Sensor
 }
 '''
 result = list(g.query(q))

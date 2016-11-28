@@ -69,7 +69,7 @@ g.add( (port_si, GROUP.labeled, Literal('Secondary Input')) )
 g.add( (port_so, GROUP.labeled, Literal('Secondary Output')) )
 
 # generate contents definitions
-Affects = RHX['relations/affects']
+Affects = RHX['affects']
 g.add( (Affects, RDF['type'], OWL['ObjectProperty']) )
 Side = RHX['types/Side']
 g.add( (Side, RDF.type, OWL.Class) )
