@@ -104,7 +104,7 @@ class Group:
         ports = {}
         for portname, port in r:
             if (port, GROUP.within, outer_group) in g:
-                ports[portname] = port
+                ports[portname.value] = port
         
         return {
             'graph': g,

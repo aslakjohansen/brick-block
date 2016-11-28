@@ -53,24 +53,59 @@ for name in brick:
     g.bind(brick[name]['prefix'], brick[name]['namespace'])
     globals()[name] = brick[name]['namespace']
 
-# target namespace
-EX = Namespace('http://buildsys.org/ontologies/Example#')
-g.bind('ex', EX)
+################################################################################
+##################################################################### group ####
+
+# seq rotary heat exchanger namespace
+SRHX = Namespace('http://buildsys.org/ontologies/seq_rotary_heat_exchanger#')
+g.bind('srhx', SRHX)
+
+# generate group
+group   = SRHX['group']
+port_pi = SRHX['port/pi']
+port_po = SRHX['port/po']
+port_si = SRHX['port/si']
+port_so = SRHX['port/so']
+g.add( (group  , RDF.type, GROUP.Group) )
+g.add( (port_pi, RDF.type, GROUP.Port) )
+g.add( (port_po, RDF.type, GROUP.Port) )
+g.add( (port_si, RDF.type, GROUP.Port) )
+g.add( (port_so, RDF.type, GROUP.Port) )
+g.add( (group  , GROUP.labeled, Literal('Rotary Heat Exchanger Sequence')) )
+g.add( (port_pi, GROUP.labeled, Literal('Primary Input')) )
+g.add( (port_po, GROUP.labeled, Literal('Primary Output')) )
+g.add( (port_si, GROUP.labeled, Literal('Secondary Input')) )
+g.add( (port_so, GROUP.labeled, Literal('Secondary Output')) )
 
 ################################################################################
 ###################################################################### main ####
 
-group = Group('brick_rotary_heat_exchanger.ttl')
+rhx_group = Group('brick_rotary_heat_exchanger.ttl')
 
-rhe1 = group.instantiate(EX, 'rhe1')
+# instantiate first rotary heat exchanger
+rhe1 = rhx_group.instantiate(SRHX, 'rhe1')
 g += rhe1['graph']
 for port in rhe1['ports']:
     print('rhe1: %s ↦ %s' % (port, rhe1['ports'][port]))
 
-rhe2 = group.instantiate(EX, 'rhe2')
+# instantiate second rotary heat exchanger
+rhe2 = rhx_group.instantiate(SRHX, 'rhe2')
 g += rhe2['graph']
 for port in rhe2['ports']:
     print('rhe2: %s ↦ %s' % (port, rhe2['ports'][port]))
+
+# feeds relationships
+print(rhe2['ports'].keys())
+g.add( (port_pi                          , BRICKFRAME.feeds, rhe2['ports']['Primary Input']) )
+g.add( (rhe2['ports']['Primary Output']  , BRICKFRAME.feeds, rhe1['ports']['Primary Input']) )
+g.add( (rhe1['ports']['Primary Output']  , BRICKFRAME.feeds, port_po) )
+g.add( (port_si                          , BRICKFRAME.feeds, rhe1['ports']['Secondary Input']) )
+g.add( (rhe1['ports']['Secondary Output'], BRICKFRAME.feeds, rhe2['ports']['Secondary Input']) )
+g.add( (rhe2['ports']['Secondary Output'], BRICKFRAME.feeds, port_so) )
+
+# generate grouping relationships
+for entity in [port_pi, port_po, port_si, port_so]:
+    g.add( (entity, GROUP.within, group) )
 
 # store result
 print('Number of relations: %u' % (len(g)))
