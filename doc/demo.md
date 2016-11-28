@@ -1,6 +1,6 @@
 # Demonstration
 
-## Group Generator
+## Group Toolchain
 
 The [generate_group](https://github.com/aslakjohansen/brick-block/blob/master/src/generate_group) script produces the definitions needed for defining groups. The result is stored as `brick_group.ttl`. The In the following we will see a series of instantiations of such groups using [/src/group.py](https://github.com/aslakjohansen/brick-block/blob/master/src/group.py).
 
