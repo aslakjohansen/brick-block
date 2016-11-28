@@ -41,5 +41,11 @@ The [generate_demo_setup](https://github.com/aslakjohansen/brick-block/blob/mast
 
 ## Results
 
+The [demo](https://github.com/aslakjohansen/brick-block/blob/master/src/demo) script executes a series of queries on the resulting model. These includes
 
+* *Case 1 - sensors which are fed by a temperature sensor* This shows that it is trivial to traverse nested groups without risking spillage
+* *Case 2 - labels of groups which are fed by a temperature sensor* This shows that is is simple to find encompassing groups
+* *Case 3 - which sensors affects the flow sensor* This illustrates the *affects* relation which is used to link the two sides of the rotary heat exchanger
+* *Case 4 - find rotary heat exchangers in sequence* This provides evidence that the grouping works
+* *Case 5 - find rotary heat exchangers in parallel* This provides evidence that the grouping works
 
