@@ -1,0 +1,95 @@
+#!/usr/bin/env python3.5
+
+from rdflib import Graph, Namespace, URIRef, Literal
+from group import Group
+import sys
+
+################################################################################
+##################################################################### intro ####
+
+# parts of brick to load
+brick = {
+    'BRICK': {
+        'file': 'Brick.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/Brick#'),
+        'prefix': 'brick',
+    },
+    'BRICKFRAME': {
+        'file': 'BrickFrame.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/BrickFrame#'),
+        'prefix': 'bf',
+    },
+    'BRICKTAG': {
+        'file': 'BrickTag.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/BrickTag#'),
+        'prefix': 'btag',
+    },
+}
+
+# guard: command line arguments
+if len(sys.argv)!=2:
+    print('Syntax: %s PATH_TO_BRICK' % sys.argv[0])
+    print('        %s ../../GroundTruth/Brick' % sys.argv[0])
+    exit(1)
+brickpath = sys.argv[1]
+
+# get started on the graph
+g = Graph()
+
+# general namespaces
+RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
+OWL   = Namespace('http://www.w3.org/2002/07/owl#')
+GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+g.parse('brick_group.ttl', format='turtle')
+g.bind('rdf' , RDF)
+g.bind('rdfs', RDFS)
+g.bind('owl' , OWL)
+g.bind('grp' , GROUP)
+
+# brick namespace
+for name in brick:
+    g.parse('%s/%s' % (brickpath, brick[name]['file']), format='turtle')
+    g.bind(brick[name]['prefix'], brick[name]['namespace'])
+    globals()[name] = brick[name]['namespace']
+
+################################################################################
+##################################################################### group ####
+
+# seq rotary heat exchanger namespace
+DEMO = Namespace('http://buildsys.org/ontologies/seq_rotary_heat_exchanger#')
+g.bind('demo', DEMO)
+
+################################################################################
+###################################################################### main ####
+
+exchanger_group = Group('brick_tbt_rotary_heat_exchanger.ttl')
+
+# instantiate rotary heat exchanger complex
+exchanger = exchanger_group.instantiate(DEMO, 'exchanger_complex')
+g += exchanger['graph']
+for port in exchanger['ports']:
+    print('exchanger: %s ↦ %s' % (port, exchanger['ports'][port]))
+
+# names
+temp_pi = DEMO['temp_pi']
+temp_po = DEMO['temp_po']
+temp_si = DEMO['temp_si']
+temp_so = DEMO['temp_so']
+
+# definitions
+g.add( (temp_pi, RDF.type, BRICK['Temperature_Sensor']) )
+g.add( (temp_po, RDF.type, BRICK['Temperature_Sensor']) )
+g.add( (temp_si, RDF.type, BRICK['Temperature_Sensor']) )
+g.add( (temp_so, RDF.type, BRICK['Temperature_Sensor']) )
+
+# feeds relationships
+g.add( (temp_pi                               , BRICKFRAME.feeds, exchanger['ports']['Primary Input']) )
+g.add( (exchanger['ports']['Primary Output']  , BRICKFRAME.feeds, temp_po) )
+g.add( (temp_si                               , BRICKFRAME.feeds, exchanger['ports']['Secondary Input']) )
+g.add( (exchanger['ports']['Secondary Output'], BRICKFRAME.feeds, temp_so) )
+
+# store result
+print('Number of relations: %u' % (len(g)))
+g.serialize('demo.ttl', 'turtle')
+
