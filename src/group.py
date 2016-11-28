@@ -80,9 +80,18 @@ class Group:
             print(' - instance entity: %s /\n                    %s' % (entity, str(type(entity))))
         
         # process
+        mapping = {}
         for sub, pred, obj in self.g:
+            for entity in [sub, obj]:
+                if not entity in mapping:
+                    if entity in definition_entities:
+                        newentity = entity
+                    else:
+                        namespace, name, source_prefix = self.decompose(entity)
+                        newentity = target_namespace['%s/%s' % (target_prefix , name)]
+                    mapping[entity] = newentity
             if sub in definition_entities or obj in definition_entities:
-                g.add( (sub, pred, obj) )
+                g.add( (mapping[sub], pred, mapping[obj]) )
         
         return g
         
