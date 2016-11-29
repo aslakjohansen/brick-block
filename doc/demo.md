@@ -39,6 +39,10 @@ The [generate_demo_setup](../src/generate_demo_setup) script builds on this to i
 * **Secondary Input** is a `Pressure_Sensor`
 * **Secondary Output** is a `Flow_Sensor`
 
+Neested in the figure are three layers of blocks, each of a different type defined in a separate file. The nesting is (color coded for type):
+
+![Demo Setup](figs/demo_nesting_rhx.png)
+
 ## Results
 
 The [demo](../src/demo) script executes a series of queries on the resulting model. These includes
