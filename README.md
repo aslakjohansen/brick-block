@@ -8,5 +8,5 @@ Building a prototype toolchain for a general purpose grouping mechanism (a la fu
 
 * [src](src)  Source code
 * [doc](doc)  Documentation
-* [demo](doc/demo.md) Demonstation of prototype (start here unless you know better)
+* [doc/demo](doc/demo.md) Demonstation of prototype (start here unless you know better)
 
