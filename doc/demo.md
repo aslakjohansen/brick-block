@@ -53,3 +53,7 @@ The [demo](../src/demo) script executes a series of queries on the resulting mod
 * *Case 4 - find rotary heat exchangers in sequence* This provides evidence that the grouping works
 * *Case 5 - find rotary heat exchangers in parallel* This provides evidence that the grouping works. **Note:** This query is quite slow and produces 16 matches (one for every 8 combinations and the mirrored representations of these)
 
+## Lessons Learned
+
+[RDFLib](https://github.com/RDFLib/rdflib) can be very slow and at times messy: The number of relations in this demo grew faster than necessary. I might have missed some cleanup functionality though.
+
