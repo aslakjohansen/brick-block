@@ -51,5 +51,5 @@ The [demo](../src/demo) script executes a series of queries on the resulting mod
 * *Case 2 - labels of groups which are fed by a temperature sensor* This shows that is is simple to find encompassing groups
 * *Case 3 - which sensors affects the flow sensor* This illustrates the *affects* relation which is used to link the two sides of the rotary heat exchanger
 * *Case 4 - find rotary heat exchangers in sequence* This provides evidence that the grouping works
-* *Case 5 - find rotary heat exchangers in parallel* This provides evidence that the grouping works. **Note:** This query is quite slow and produces 16 matches (one for every combination and their mirrored representation)
+* *Case 5 - find rotary heat exchangers in parallel* This provides evidence that the grouping works. **Note:** This query is quite slow and produces 16 matches (one for every 8 combinations and the mirrored representations of these)
 
