@@ -148,3 +148,54 @@ for i in range(len(result)):
     print(' (%u) %s -> %s' % (i+1, result[i][0], result[i][1]))
 print('')
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+print('Demo 5: find rotary heat exchangers in parallel')
+q = '''
+SELECT DISTINCT ?rhx1 ?rhx2
+WHERE {
+    ?rhx1 rdf:type grp:Group .
+    ?rhx1 grp:labeled "Rotary Heat Exchanger" .
+    ?rhx1pi rdf:type grp:Port .
+    ?rhx1pi grp:within ?rhx1 .
+    ?rhx1pi grp:labeled "Primary Input" .
+    ?rhx1po rdf:type grp:Port .
+    ?rhx1po grp:within ?rhx1 .
+    ?rhx1po grp:labeled "Primary Output" .
+    ?rhx1si rdf:type grp:Port .
+    ?rhx1si grp:within ?rhx1 .
+    ?rhx1si grp:labeled "Secondary Input" .
+    ?rhx1so rdf:type grp:Port .
+    ?rhx1so grp:within ?rhx1 .
+    ?rhx1so grp:labeled "Secondary Output" .
+    
+    ?rhx2 rdf:type grp:Group .
+    ?rhx2 grp:labeled "Rotary Heat Exchanger" .
+    ?rhx2pi rdf:type grp:Port .
+    ?rhx2pi grp:within ?rhx2 .
+    ?rhx2pi grp:labeled "Primary Input" .
+    ?rhx2po rdf:type grp:Port .
+    ?rhx2po grp:within ?rhx2 .
+    ?rhx2po grp:labeled "Primary Output" .
+    ?rhx2si rdf:type grp:Port .
+    ?rhx2si grp:within ?rhx2 .
+    ?rhx2si grp:labeled "Secondary Input" .
+    ?rhx2so rdf:type grp:Port .
+    ?rhx2so grp:within ?rhx2 .
+    ?rhx2so grp:labeled "Secondary Output" .
+    
+    ?common_pi bf:feeds+ ?rhx1pi .
+    ?common_pi bf:feeds+ ?rhx2pi .
+    ?common_si bf:feeds+ ?rhx1si .
+    ?common_si bf:feeds+ ?rhx2si .
+    ?rhx1po    bf:feeds+ ?common_po .
+    ?rhx2po    bf:feeds+ ?common_po .
+    ?rhx1so    bf:feeds+ ?common_so .
+    ?rhx2so    bf:feeds+ ?common_so
+}
+'''
+result = list(g.query(q))
+for i in range(len(result)):
+    print(' (%u) %s -> %s' % (i+1, result[i][0], result[i][1]))
+print('')
+
