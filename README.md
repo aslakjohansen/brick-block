@@ -6,7 +6,7 @@ Building a prototype toolchain for a general purpose grouping mechanism (a la fu
 
 # Repository Layout
 
-* `doc`  Documentation
-* `src`  Source code
-* `demo` Demonstation of prototype (start here unless you know better)
+* [src](src)  Source code
+* [doc](doc)  Documentation
+* [demo](doc/demo.md) Demonstation of prototype (start here unless you know better)
 
