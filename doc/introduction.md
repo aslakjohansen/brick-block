@@ -73,3 +73,9 @@ This in turn provides us with the fundamentals for reasoning about subgraphs and
 
 At this point the subgraph can be seen as a block with an interface separating use from implementation. In short, it allows us to compose our graph (or subgraph) at block-level granularity.
 
+## Open Questions
+
+### Interface Matching
+
+This form of grouping gives us strict nesting, meaning that the all paths between something inside the group and something outside the group goes through a port of that group. This complicates things when it comes to interface matching. If interface matching is a wrapper around group matching then we find ourselves facing something very close to the classical inherited type equivalence problem. There are solutions to this, but how would a concrete solution look? and how would it affect the complexity of queries? One alternative is that a group can *provide* an interface.
+
