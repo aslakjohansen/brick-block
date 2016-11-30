@@ -79,6 +79,10 @@ At this point the subgraph can be seen as a block with an interface separating u
 
 Does a port have a direction? So far I have not come across a strict *need* for direction. Conceptually, it might make sense to restrict the direction. On the other hand, it would complicate things a bit on the lower abstraction.
 
+### Port Type
+
+Does a port have a type? It would make conceptual sense to assign both direction and type to ports. A `Boiler` block would then have a `Water Input` and a `Steam Output`.
+
 ### Interface Matching
 
 This form of grouping gives us strict nesting, meaning that the all paths between something inside the group and something outside the group goes through a port of that group. This complicates things when it comes to interface matching. If interface matching is a wrapper around group matching then we find ourselves facing something very close to the classical inherited type equivalence problem. There are solutions to this, but how would a concrete solution look? and how would it affect the complexity of queries? One alternative is that a group can *provide* an interface.
