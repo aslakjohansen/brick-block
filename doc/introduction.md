@@ -75,6 +75,10 @@ At this point the subgraph can be seen as a block with an interface separating u
 
 ## Open Questions
 
+### Port Direction
+
+Does a port have a direction? So far I have not come across a strict *need* for direction. Conceptually, it might make sense to restrict the direction. On the other hand, it would complicate things a bit on the lower abstraction.
+
 ### Interface Matching
 
 This form of grouping gives us strict nesting, meaning that the all paths between something inside the group and something outside the group goes through a port of that group. This complicates things when it comes to interface matching. If interface matching is a wrapper around group matching then we find ourselves facing something very close to the classical inherited type equivalence problem. There are solutions to this, but how would a concrete solution look? and how would it affect the complexity of queries? One alternative is that a group can *provide* an interface.
