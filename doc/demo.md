@@ -55,5 +55,9 @@ The [demo](../src/demo) script executes a series of queries on the resulting mod
 
 ## Lessons Learned
 
-[RDFLib](https://github.com/RDFLib/rdflib) can be very slow and at times messy: The number of relations in this demo grew faster than necessary. I might have missed some cleanup functionality though.
+[RDFLib](https://github.com/RDFLib/rdflib) can be very slow and at times messy:
+
+* The number of relations in this demo grew faster than necessary. I might have missed some cleanup functionality though.
+* I failed to successfully insert an isLiteral FILTER into a SparQL query. Maybe it is simply not supported?
+* Some queries fail on Python 3.5. Going back to 2.7 solves the problem.
 
