@@ -90,3 +90,15 @@ This form of grouping gives us strict nesting, meaning that the all paths betwee
 * If interface matching is a wrapper around group matching then we find ourselves facing something very close to the classical inherited type equivalence problem. There are solutions to this, but how would a concrete solution look? and how would it affect the complexity of queries?
 * One alternative is that a group can *provide* an interface. This has the benefit of introducing the notion of an interface.
 
+### The Evolving Graph
+
+**Note:** This is not specific to grouping.
+
+As the building change so should the model. However, once the model has changed data collected prior to the time of change no longer has a representation in that model.
+
+A few solutions:
+1. Store the model in some versioning control system. While this would strictly speaking work it would be cumbersome to do queries over time.
+2. Annotate every entity in our model with two timestamps: `valid_from` and `valid_to`. This way it is trivial to extract a subgraph representing to state of the building at any point in time. For practical reasons tools would need to be created to maintain this:
+  * When inserting a new entity it is assigned a `valid_from` timestamp and a `valid_to`null object.
+  * When removing an entity it is actually kept, but marked as currently invalid by assigning a timestamp to its `valid_to` field.
+
