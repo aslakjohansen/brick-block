@@ -4,7 +4,19 @@ import sys
 GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
 
 class Group:
+    '''
+    A class for loading a group/block/subgraph/(function block)/(functional block)
+    definition from a file an creating instances of it.
+    '''
+    
     def __init__ (self, filename):
+        '''
+        Load a group definition from a file
+        
+        Arguments:
+        filename -- which turtle file (ttl-extension) to load the definition from
+        '''
+        
         self.g = Graph()
         self.g.parse(filename, format='turtle')
     
@@ -21,6 +33,19 @@ class Group:
         return namespace, name, ns_prefix
     
     def instantiate (self, target_namespace, target_prefix):
+        '''
+        Construct a graph containing an instance of group.
+        
+        Arguments:
+        target_namespace -- which namespace to place the instance entities in
+        target_prefix -- what the prefix the instance entities with
+        
+        It will return a dictionary with three entries:
+        graph -- the resulting graph
+        ports -- a dictionary mapping port names to port entities
+        group -- the encapsulating group entity
+        '''
+        
         g = Graph()
         g.bind('grp', GROUP)
         
