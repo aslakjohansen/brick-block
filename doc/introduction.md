@@ -85,5 +85,8 @@ Does a port have a type? It would make conceptual sense to assign both direction
 
 ### Interface Matching
 
-This form of grouping gives us strict nesting, meaning that the all paths between something inside the group and something outside the group goes through a port of that group. This complicates things when it comes to interface matching. If interface matching is a wrapper around group matching then we find ourselves facing something very close to the classical inherited type equivalence problem. There are solutions to this, but how would a concrete solution look? and how would it affect the complexity of queries? One alternative is that a group can *provide* an interface.
+This form of grouping gives us strict nesting, meaning that the all paths between something inside the group and something outside the group goes through a port of that group. This complicates things when it comes to interface matching.
+
+* If interface matching is a wrapper around group matching then we find ourselves facing something very close to the classical inherited type equivalence problem. There are solutions to this, but how would a concrete solution look? and how would it affect the complexity of queries?
+* One alternative is that a group can *provide* an interface. This has the benefit of introducing the notion of an interface.
 
