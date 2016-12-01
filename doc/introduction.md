@@ -4,7 +4,7 @@
 This is intended to be a proof-of-concept implementation of a grouping mechanism for [Brick](http://brickschema.org) that allows for composition.
 
 <!-- function block disclaimer: this is a group -->
-Due to the foggy definition of a function block I have elected to call this a *group*. That name happens to mirror its functionality; it groups a subgraph. On the subgraph boundary a set of *ports* define its interface.
+Due to the foggy definition of a function block (or functional block or block or to a lesser degree subgraph) I have elected to call this a *group* to avoid confusion. Hopefully without generating too much confusion. That name happens to mirror its functionality; it groups a subgraph. On the subgraph boundary a set of *ports* define its interface.
 
 <!-- what is a group: subgraph, one entity to rule them all, interface through ports -->
 The group can be derived by the following process:
