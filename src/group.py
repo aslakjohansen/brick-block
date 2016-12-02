@@ -22,6 +22,12 @@ class Group:
     
     # pull apart an entity from the source graph
     def decompose (self, entity):
+        '''
+        Extracts from an entity a tuple containing the rdflib namespace
+        holding the entity, the relative name of the entity within this
+        namespace, and the active abbreviation for this namespace.
+        '''
+        
         paths = []
         for (ns_prefix, path) in self.g.namespace_manager.namespaces():
             if entity.startswith(path): paths.append((ns_prefix, path))
