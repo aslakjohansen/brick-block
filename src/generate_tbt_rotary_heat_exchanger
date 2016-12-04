@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.5
 
 from rdflib import Graph, Namespace, URIRef, Literal
-from group import Group
+import group as grp
 import sys
 
 ################################################################################
@@ -80,16 +80,14 @@ g.add( (port_so, GROUP.labeled, Literal('Secondary Output')) )
 ################################################################################
 ###################################################################### main ####
 
-srhx_group = Group('brick_seq_rotary_heat_exchanger.ttl')
-
 # instantiate first rotary heat exchanger
-srhe1 = srhx_group.instantiate(TBTRHX, 'rhe1')
+srhe1 = grp.instantiate('brick_seq_rotary_heat_exchanger.ttl', TBTRHX, 'rhe1')
 g += srhe1['graph']
 for port in srhe1['ports']:
     print('srhe1: %s ↦ %s' % (port, srhe1['ports'][port]))
 
 # instantiate second rotary heat exchanger
-srhe2 = srhx_group.instantiate(TBTRHX, 'rhe2')
+srhe2 = grp.instantiate('brick_seq_rotary_heat_exchanger.ttl', TBTRHX, 'rhe2')
 g += srhe2['graph']
 for port in srhe2['ports']:
     print('srhe2: %s ↦ %s' % (port, srhe2['ports'][port]))

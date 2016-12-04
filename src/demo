@@ -3,7 +3,6 @@
 # NOTE: Demo 3 triggers a bug in the rdflib when running on python 3.5. It could be this: https://github.com/RDFLib/rdflib/issues/617
 
 from rdflib import Graph, Namespace, URIRef, Literal
-from group import Group
 import sys
 
 ################################################################################

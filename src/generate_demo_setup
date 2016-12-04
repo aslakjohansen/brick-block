@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.5
 
 from rdflib import Graph, Namespace, URIRef, Literal
-from group import Group
+import group
 import sys
 
 ################################################################################
@@ -63,10 +63,8 @@ g.bind('demo', DEMO)
 ################################################################################
 ###################################################################### main ####
 
-exchanger_group = Group('brick_tbt_rotary_heat_exchanger.ttl')
-
 # instantiate rotary heat exchanger complex
-exchanger = exchanger_group.instantiate(DEMO, 'exchanger_complex')
+exchanger = group.instantiate('brick_tbt_rotary_heat_exchanger.ttl', DEMO, 'exchanger_complex')
 g += exchanger['graph']
 for port in exchanger['ports']:
     print('exchanger: %s ↦ %s' % (port, exchanger['ports'][port]))
