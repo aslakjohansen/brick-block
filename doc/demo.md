@@ -34,10 +34,10 @@ The [generate_demo_setup](../src/generate_demo_setup) script builds on this to i
 
 **Note:** Input and output ports of the outer group have been flipped compared to the previous figures. The mapping is:
 
-* **Primary Input** is a `Temperature_Sensor`
-* **Primary Output** is a `Humidity_Sensor`
-* **Secondary Input** is a `Pressure_Sensor`
-* **Secondary Output** is a `Flow_Sensor`
+* **Primary Input** is fed by a `Temperature_Sensor`
+* **Primary Output** feeds a `Humidity_Sensor`
+* **Secondary Input** is fed by a `Pressure_Sensor`
+* **Secondary Output** feeds a `Flow_Sensor`
 
 Neested in the figure are three layers of blocks, each of a different type defined in a separate file. The nesting is (color coded for type):
 
