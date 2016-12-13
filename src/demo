@@ -81,15 +81,15 @@ print('')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-print('Demo 2: labels of groups which are fed by a temperature sensor')
+print('Demo 2: types of groups which are fed by a temperature sensor')
 q = '''
-SELECT DISTINCT ?label ?group
+SELECT DISTINCT ?group_type ?group
 WHERE {
     ?temp rdf:type brick:Temperature_Sensor .
     ?temp bf:feeds+ ?port .
-    ?port rdf:type grp:Port .
+    ?port rdf:type/rdfs:subClassOf+ grp:Port .
     ?port grp:within ?group .
-    ?group grp:labeled ?label
+    ?group rdf:type ?group_type
 }
 '''
 result = list(g.query(q))
@@ -120,23 +120,17 @@ print('Demo 4: find rotary heat exchangers in sequence')
 q = '''
 SELECT ?rhx1 ?rhx2
 WHERE {
-    ?rhx1 rdf:type grp:Group .
-    ?rhx1 grp:labeled "Rotary Heat Exchanger" .
-    ?rhx1po rdf:type grp:Port .
+    ?rhx1 rdf:type rhx:Rotary_Heat_Exchanger .
+    ?rhx1po rdf:type rhx:Primary_Output .
     ?rhx1po grp:within ?rhx1 .
-    ?rhx1po grp:labeled "Primary Output" .
-    ?rhx1si rdf:type grp:Port .
+    ?rhx1si rdf:type rhx:Secondary_Input .
     ?rhx1si grp:within ?rhx1 .
-    ?rhx1si grp:labeled "Secondary Input" .
     
-    ?rhx2 rdf:type grp:Group .
-    ?rhx2 grp:labeled "Rotary Heat Exchanger" .
-    ?rhx2pi rdf:type grp:Port .
+    ?rhx2 rdf:type rhx:Rotary_Heat_Exchanger .
+    ?rhx2pi rdf:type rhx:Primary_Input .
     ?rhx2pi grp:within ?rhx2 .
-    ?rhx2pi grp:labeled "Primary Input" .
-    ?rhx2so rdf:type grp:Port .
+    ?rhx2so rdf:type rhx:Secondary_Output .
     ?rhx2so grp:within ?rhx2 .
-    ?rhx2so grp:labeled "Secondary Output" .
     
     ?rhx1po bf:feeds+ ?rhx2pi .
     ?rhx2so bf:feeds+ ?rhx1si
@@ -153,35 +147,25 @@ print('Demo 5: find rotary heat exchangers in parallel (this will take time)')
 q = '''
 SELECT DISTINCT ?rhx1 ?rhx2
 WHERE {
-    ?rhx1 rdf:type grp:Group .
-    ?rhx1 grp:labeled "Rotary Heat Exchanger" .
-    ?rhx1pi rdf:type grp:Port .
+    ?rhx1 rdf:type rhx:Rotary_Heat_Exchanger .
+    ?rhx1pi rdf:type rhx:Primary_Input .
     ?rhx1pi grp:within ?rhx1 .
-    ?rhx1pi grp:labeled "Primary Input" .
-    ?rhx1po rdf:type grp:Port .
+    ?rhx1po rdf:type rhx:Primary_Output .
     ?rhx1po grp:within ?rhx1 .
-    ?rhx1po grp:labeled "Primary Output" .
-    ?rhx1si rdf:type grp:Port .
+    ?rhx1si rdf:type rhx:Secondary_Input .
     ?rhx1si grp:within ?rhx1 .
-    ?rhx1si grp:labeled "Secondary Input" .
-    ?rhx1so rdf:type grp:Port .
+    ?rhx1so rdf:type rhx:Secondary_Output .
     ?rhx1so grp:within ?rhx1 .
-    ?rhx1so grp:labeled "Secondary Output" .
     
-    ?rhx2 rdf:type grp:Group .
-    ?rhx2 grp:labeled "Rotary Heat Exchanger" .
-    ?rhx2pi rdf:type grp:Port .
+    ?rhx2 rdf:type rhx:Rotary_Heat_Exchanger .
+    ?rhx2pi rdf:type rhx:Primary_Input .
     ?rhx2pi grp:within ?rhx2 .
-    ?rhx2pi grp:labeled "Primary Input" .
-    ?rhx2po rdf:type grp:Port .
+    ?rhx2po rdf:type rhx:Primary_Output .
     ?rhx2po grp:within ?rhx2 .
-    ?rhx2po grp:labeled "Primary Output" .
-    ?rhx2si rdf:type grp:Port .
+    ?rhx2si rdf:type rhx:Secondary_Input .
     ?rhx2si grp:within ?rhx2 .
-    ?rhx2si grp:labeled "Secondary Input" .
-    ?rhx2so rdf:type grp:Port .
+    ?rhx2so rdf:type rhx:Secondary_Output .
     ?rhx2so grp:within ?rhx2 .
-    ?rhx2so grp:labeled "Secondary Output" .
     
     ?common_pi bf:feeds+ ?rhx1pi .
     ?common_pi bf:feeds+ ?rhx2pi .

@@ -82,10 +82,10 @@ g.add( (sensor_si, RDF.type, BRICK['Pressure_Sensor']) )
 g.add( (sensor_so, RDF.type, BRICK['Flow_Sensor']) )
 
 # feeds relationships
-g.add( (sensor_pi                               , BRICKFRAME.feeds, exchanger['ports']['Primary Input']) )
-g.add( (exchanger['ports']['Primary Output']  , BRICKFRAME.feeds, sensor_po) )
-g.add( (sensor_si                               , BRICKFRAME.feeds, exchanger['ports']['Secondary Input']) )
-g.add( (exchanger['ports']['Secondary Output'], BRICKFRAME.feeds, sensor_so) )
+g.add( (sensor_pi                               , BRICKFRAME.feeds, exchanger['ports']['Primary_Input']) )
+g.add( (exchanger['ports']['Primary_Output']  , BRICKFRAME.feeds, sensor_po) )
+g.add( (sensor_si                               , BRICKFRAME.feeds, exchanger['ports']['Secondary_Input']) )
+g.add( (exchanger['ports']['Secondary_Output'], BRICKFRAME.feeds, sensor_so) )
 
 # store result
 print('Number of relations: %u' % (len(g)))

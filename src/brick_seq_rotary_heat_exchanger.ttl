@@ -5,10 +5,10 @@
 @prefix default1: <http://buildsys.org/ontologies/BrickTag#> .
 @prefix default2: <http://buildsys.org/ontologies/Brick#> .
 @prefix grp: <http://buildsys.org/ontologies/BrickGroup#> .
-@prefix ns1: <http://buildsys.org/ontologies/rotary_heat_exchanger#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rhx: <http://buildsys.org/ontologies/rotary_heat_exchanger#> .
 @prefix srhx: <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#> .
 @prefix tag: <http://buildsys.org/ontologies/BrickTag#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -3174,8 +3174,6 @@ bf:usesPoint a owl:AnnotationProperty ;
 
 bf:usesTag a owl:AnnotationProperty .
 
-grp:labeled a owl:ObjectProperty .
-
 grp:within a owl:ObjectProperty .
 
 tag:Adjustment a owl:Class ;
@@ -3246,16 +3244,14 @@ tag:Turned a owl:Class ;
     rdfs:label "Turned"@en ;
     rdfs:subClassOf tag:MeasurementProperty_Modifier .
 
-ns1:affects a owl:ObjectProperty .
+rhx:affects a owl:ObjectProperty .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#port/pi> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/pi> ;
-    grp:labeled "Primary Input" ;
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#ports/pi> a srhx:Primary_Input ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/pi> ;
     grp:within srhx:group .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#port/si> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/si> ;
-    grp:labeled "Secondary Input" ;
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#ports/si> a srhx:Secondary_Input ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/si> ;
     grp:within srhx:group .
 
 brick:Air_Handler_Unit a owl:Class ;
@@ -4820,63 +4816,63 @@ tag:Yearly a owl:Class ;
     rdfs:label "Yearly"@en ;
     rdfs:subClassOf tag:MeasurementProperty_Modifier .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#port/po> a grp:Port ;
-    grp:labeled "Primary Output" ;
+srhx:Primary_Input rdfs:subClassOf grp:Port .
+
+srhx:Primary_Output rdfs:subClassOf grp:Port .
+
+srhx:Rotary_Heat_Exchanger_Sequence rdfs:subClassOf grp:Group .
+
+srhx:Secondary_Input rdfs:subClassOf grp:Port .
+
+srhx:Secondary_Output rdfs:subClassOf grp:Port .
+
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#ports/po> a srhx:Primary_Output ;
     grp:within srhx:group .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#port/so> a grp:Port ;
-    grp:labeled "Secondary Output" ;
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#ports/so> a srhx:Secondary_Output ;
     grp:within srhx:group .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/primary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/po> ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> ;
-    ns1:affects <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/secondary> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/contents/primary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/po> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> ;
+    rhx:affects <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/contents/secondary> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/pi> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/primary> ;
-    grp:labeled "Primary Input" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/pi> a rhx:Primary_Input ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/contents/primary> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/po> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#port/po> ;
-    grp:labeled "Primary Output" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/po> a rhx:Primary_Output ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#ports/po> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/si> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/secondary> ;
-    grp:labeled "Secondary Input" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/si> a rhx:Secondary_Input ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/contents/secondary> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/so> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/si> ;
-    grp:labeled "Secondary Output" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/so> a rhx:Secondary_Output ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/si> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/primary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/po> ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> ;
-    ns1:affects <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/secondary> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/contents/primary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/po> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> ;
+    rhx:affects <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/contents/secondary> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/pi> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/primary> ;
-    grp:labeled "Primary Input" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/pi> a rhx:Primary_Input ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/contents/primary> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/po> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/pi> ;
-    grp:labeled "Primary Output" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/po> a rhx:Primary_Output ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/pi> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/si> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/secondary> ;
-    grp:labeled "Secondary Input" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/si> a rhx:Secondary_Input ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/contents/secondary> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/so> a grp:Port ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#port/so> ;
-    grp:labeled "Secondary Output" ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/so> a rhx:Secondary_Output ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#ports/so> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> .
 
 brick:AHU_Off_Status_LED a owl:Class ;
     rdfs:label "AHU Off Status LED"@en ;
@@ -8226,6 +8222,8 @@ bf:hasToken a owl:AsymmetricProperty,
     rdfs:range bf:Token ;
     owl:inverseOf bf:isTokenOf .
 
+grp:Group a owl:Class .
+
 tag:Activated a owl:Class ;
     rdfs:label "Activated"@en ;
     rdfs:subClassOf tag:MeasurementProperty_Modifier .
@@ -8411,13 +8409,23 @@ tag:Zenith a owl:Class ;
     rdfs:label "Zenith"@en ;
     rdfs:subClassOf tag:MeasurementProperty_Modifier .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/secondary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#port/so> ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+rhx:Primary_Input rdfs:subClassOf grp:Port .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#contents/secondary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
-    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#port/so> ;
-    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> .
+rhx:Primary_Output rdfs:subClassOf grp:Port .
+
+rhx:Rotary_Heat_Exchanger rdfs:subClassOf grp:Group .
+
+rhx:Secondary_Input rdfs:subClassOf grp:Port .
+
+rhx:Secondary_Output rdfs:subClassOf grp:Port .
+
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/contents/secondary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/ports/so> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> .
+
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/contents/secondary> a <http://buildsys.org/ontologies/rotary_heat_exchanger#types/Side> ;
+    bf:feeds <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/ports/so> ;
+    grp:within <http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> .
 
 brick:AHU a owl:Class ;
     rdfs:label "AHU"@en,
@@ -10505,8 +10513,6 @@ brick:Velocity_Pressure_Sensor a owl:Class ;
     rdfs:label "Velocity Pressure Sensor"@en ;
     rdfs:subClassOf brick:Pressure_Sensor .
 
-grp:Group a owl:Class .
-
 tag:AHU a owl:Class ;
     rdfs:label "AHU"@en ;
     rdfs:subClassOf tag:Equipment_HVAC .
@@ -11604,15 +11610,12 @@ tag:Velocity a owl:Class ;
     rdfs:label "Velocity"@en ;
     rdfs:subClassOf tag:MeasurementProperty_Modifier .
 
-srhx:group a grp:Group ;
-    grp:labeled "Rotary Heat Exchanger Sequence" .
+srhx:group a srhx:Rotary_Heat_Exchanger_Sequence .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/p://buildsys.org/ontologies/rotary_heat_exchanger#group> a grp:Group ;
-    grp:labeled "Rotary Heat Exchanger" ;
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe1/group> a rhx:Rotary_Heat_Exchanger ;
     grp:within srhx:group .
 
-<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/p://buildsys.org/ontologies/rotary_heat_exchanger#group> a grp:Group ;
-    grp:labeled "Rotary Heat Exchanger" ;
+<http://buildsys.org/ontologies/seq_rotary_heat_exchanger#rhe2/group> a rhx:Rotary_Heat_Exchanger ;
     grp:within srhx:group .
 
 brick:Air_Flow a owl:Class ;
@@ -11798,6 +11801,8 @@ brick:Run_Time_Sensor a owl:Class ;
         tag:Time ;
     rdfs:subClassOf brick:Sensor .
 
+grp:Port a owl:Class .
+
 tag:Demand a owl:Class ;
     rdfs:label "Demand"@en ;
     rdfs:subClassOf tag:MeasurementProperty_Modifier .
@@ -11968,8 +11973,6 @@ brick:Valve_Command a owl:Class ;
     bf:usesTag tag:Command,
         tag:Valve ;
     rdfs:subClassOf brick:Command .
-
-grp:Port a owl:Class .
 
 tag:Current a owl:Class ;
     rdfs:label "Current"@en ;

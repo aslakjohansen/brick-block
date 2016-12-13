@@ -34,12 +34,14 @@ g = Graph()
 
 # general namespaces
 RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
 OWL   = Namespace('http://www.w3.org/2002/07/owl#')
 GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
 g.parse('brick_group.ttl', format='turtle')
-g.bind('rdf', RDF)
-g.bind('owl', OWL)
-g.bind('grp', GROUP)
+g.bind('rdf' , RDF)
+g.bind('rdfs', RDFS)
+g.bind('owl' , OWL)
+g.bind('grp' , GROUP)
 
 # brick namespace
 for name in brick:
@@ -51,22 +53,29 @@ for name in brick:
 RHX = Namespace('http://buildsys.org/ontologies/rotary_heat_exchanger#')
 g.bind('rhx', RHX)
 
+# generate classes
+class_group   = RHX['Rotary_Heat_Exchanger']
+class_port_pi = RHX['Primary_Input']
+class_port_po = RHX['Primary_Output']
+class_port_si = RHX['Secondary_Input']
+class_port_so = RHX['Secondary_Output']
+g.add( (class_group  , RDFS.subClassOf, GROUP.Group) )
+g.add( (class_port_pi, RDFS.subClassOf, GROUP.Port) )
+g.add( (class_port_po, RDFS.subClassOf, GROUP.Port) )
+g.add( (class_port_si, RDFS.subClassOf, GROUP.Port) )
+g.add( (class_port_so, RDFS.subClassOf, GROUP.Port) )
+
 # generate group
 group   = RHX['group']
-port_pi = RHX['port/pi']
-port_po = RHX['port/po']
-port_si = RHX['port/si']
-port_so = RHX['port/so']
-g.add( (group  , RDF.type, GROUP.Group) )
-g.add( (port_pi, RDF.type, GROUP.Port) )
-g.add( (port_po, RDF.type, GROUP.Port) )
-g.add( (port_si, RDF.type, GROUP.Port) )
-g.add( (port_so, RDF.type, GROUP.Port) )
-g.add( (group  , GROUP.labeled, Literal('Rotary Heat Exchanger')) )
-g.add( (port_pi, GROUP.labeled, Literal('Primary Input')) )
-g.add( (port_po, GROUP.labeled, Literal('Primary Output')) )
-g.add( (port_si, GROUP.labeled, Literal('Secondary Input')) )
-g.add( (port_so, GROUP.labeled, Literal('Secondary Output')) )
+port_pi = RHX['ports/pi']
+port_po = RHX['ports/po']
+port_si = RHX['ports/si']
+port_so = RHX['ports/so']
+g.add( (group  , RDF.type, class_group) )
+g.add( (port_pi, RDF.type, class_port_pi) )
+g.add( (port_po, RDF.type, class_port_po) )
+g.add( (port_si, RDF.type, class_port_si) )
+g.add( (port_so, RDF.type, class_port_so) )
 
 # generate contents definitions
 Affects = RHX['affects']

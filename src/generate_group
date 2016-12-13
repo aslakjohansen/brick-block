@@ -26,10 +26,6 @@ g.add( (Group, RDF['type'], OWL['Class']) )
 Within = GROUP['within']
 g.add( (Within, RDF['type'], OWL['ObjectProperty']) )
 
-# labeled definition
-Labeled = GROUP['labeled']
-g.add( (Labeled, RDF['type'], OWL['ObjectProperty']) )
-
 # store result
 print('Number of relations: %u' % (len(g)))
 g.serialize('brick_group.ttl', 'turtle')

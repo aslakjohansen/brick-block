@@ -9,7 +9,5 @@ grp:Group a owl:Class .
 
 grp:Port a owl:Class .
 
-grp:labeled a owl:ObjectProperty .
-
 grp:within a owl:ObjectProperty .
 
