@@ -27,7 +27,7 @@ The question then becomes, how can we create such a group instance from a group 
 
 ## Group Template
 
-The group template should fundamentally be a Brick model. The set of ports belonging to an outer group (a group which is not part of another group) defines the interface. Ports are annotated with a label to allow us to name them individually.
+The group template should fundamentally be a Brick model. The set of ports belonging to an outer group (a group which is not part of another group) defines the interface. These ports are entities with a type which is a unique (within the group) subclass of `Port`. This allows us to name them individually. Similarly group types are subclasses of `Group`.
 
 ## Group Instance
 
@@ -60,9 +60,8 @@ At first this seems like a lot of complexity. The entity count goes from two to 
 ```sparql
 SELECT ?port ?group
 WHERE {
-    ?port rdf:type grp:Port .
-    ?port grp:within ?group .
-    ?port grp:labeled "Source Input" .
+    ?port rdf:type/rdfs:subClassOf rhx:Source_Input .
+    ?port grp:within ?group
 }
 
 ```
