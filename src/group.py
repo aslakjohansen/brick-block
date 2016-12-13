@@ -19,15 +19,12 @@ def decompose (def_g, entity):
     
     paths = []
     for (ns_prefix, path) in def_g.namespace_manager.namespaces():
-#        print('%s ~ %7s  %s' % (entity, ns_prefix, path))
         if entity.startswith(path): paths.append((ns_prefix, path))
     if len(paths)!=1:
         sys.stderr.write('Error: "%s" decomposes into %u paths, not 1: %s\n' % (entity, len(paths), str(paths)))
     ns_prefix = paths[0][0]
     namespace = paths[0][1]
     name = entity[len(namespace):]
-#    print('%s' % str(paths[0]))
-#    print('%s[%u:] -> %s' % (str(entity), len(namespace), name))
     return namespace, name, ns_prefix
 
 def instantiate (filename, target_namespace, target_prefix):
@@ -131,13 +128,10 @@ def instantiate (filename, target_namespace, target_prefix):
     '''
     r = g.query(q)
     ports = {}
-    print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     for port, ptype in r:
         if (port, GROUP.within, outer_group) in g:
-            print('================================== about to decompose')
             portname = decompose(g, ptype)[1]
             ports[portname] = port
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     
     return {
         'graph': g,
