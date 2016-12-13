@@ -25,17 +25,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.90509668"
-     inkscape:cx="603.94347"
-     inkscape:cy="87.662586"
+     inkscape:zoom="1.28"
+     inkscape:cx="370.51481"
+     inkscape:cy="-57.665254"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
      inkscape:object-paths="true"
@@ -64,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -260,7 +260,7 @@
              sodipodi:role="line"
              id="tspan4154-2-1"
              x="-76"
-             y="825.36218">labeled</tspan></text>
+             y="825.36218">type</tspan></text>
         <g
            id="g4287"
            transform="matrix(0,1,-1,0,773.36224,864.36232)">
@@ -291,7 +291,7 @@
              sodipodi:role="line"
              id="tspan4154-2-1-9"
              x="-70"
-             y="825.36218">labeled</tspan></text>
+             y="825.36218">type</tspan></text>
         <g
            id="g4287-3"
            transform="matrix(0,1,-1,0,773.36224,864.36232)">
@@ -323,7 +323,7 @@
              sodipodi:role="line"
              id="tspan4154-2-1-6"
              x="-76"
-             y="-816.36218">labeled</tspan></text>
+             y="-816.36218">type</tspan></text>
         <g
            id="g4287-6"
            transform="matrix(0,1,-1,0,773.36224,864.36232)">
@@ -355,7 +355,7 @@
              sodipodi:role="line"
              id="tspan4154-2-1-6-6"
              x="-70"
-             y="-816.36218">labeled</tspan></text>
+             y="-816.36218">type</tspan></text>
         <g
            id="g4287-6-2"
            transform="matrix(0,1,-1,0,773.36224,864.36232)">
@@ -378,7 +378,7 @@
          id="g6458">
         <path
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 37,866.3622 -98,2e-5 0,18 98,-2e-5 z"
+           d="m 41,866.3622 -105,0 0,18 105,0 z"
            id="path6112-9-5-2"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="ccccc" />
@@ -392,14 +392,14 @@
              sodipodi:role="line"
              id="tspan4154-2-93-4-0-2-9-0-0"
              x="-12.259399"
-             y="879.36218">Source Output</tspan></text>
+             y="879.36218">Primary_Output</tspan></text>
       </g>
       <g
          id="g6414-7"
          transform="translate(275,166)">
         <path
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 64,866.3622 -128,0 0,18 128,0 z"
+           d="m 62,866.3622 -124,0 0,18 124,0 z"
            id="path6112-9-5-2-4"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="ccccc" />
@@ -413,14 +413,14 @@
              sodipodi:role="line"
              id="tspan4154-2-93-4-0-2-9-0-0-6"
              x="0"
-             y="879.36218">Destination Output</tspan></text>
+             y="879.36218">Secondary_Output</tspan></text>
       </g>
       <g
          id="g6414-7-4"
          transform="translate(87,166)">
         <path
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 58,866.3622 -115,0 0,18 115,0 z"
+           d="m 57,866.3622 -113,0 0,18 113,0 z"
            id="path6112-9-5-2-4-7"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="ccccc" />
@@ -434,14 +434,14 @@
              sodipodi:role="line"
              id="tspan4154-2-93-4-0-2-9-0-0-6-8"
              x="0"
-             y="879.36218">Destination Input</tspan></text>
+             y="879.36218">Secondary_Input</tspan></text>
       </g>
       <g
          id="g6458-5"
          transform="translate(287,-50.000001)">
         <path
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           d="m 31,866.3622 -86,0 0,18 86,0 z"
+           d="m 35,866.3622 -94,0 0,18 94,0 z"
            id="path6112-9-5-2-8"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="ccccc" />
@@ -455,7 +455,7 @@
              sodipodi:role="line"
              id="tspan4154-2-93-4-0-2-9-0-0-60"
              x="-12.259399"
-             y="879.36218">Source Input</tspan></text>
+             y="879.36218">Primary_Input</tspan></text>
       </g>
       <circle
          r="10"

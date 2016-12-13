@@ -60,7 +60,7 @@ At first this seems like a lot of complexity. The entity count goes from two to 
 ```sparql
 SELECT ?port ?group
 WHERE {
-    ?port rdf:type/rdfs:subClassOf rhx:Source_Input .
+    ?port rdf:type/rdfs:subClassOf rhx:Primary_Input .
     ?port grp:within ?group
 }
 
