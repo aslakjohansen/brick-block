@@ -2,7 +2,7 @@
 
 Model:
 
-* Use subclassing instead of labels
+* `[X]` Use subclassing instead of labels
 
 Functionality:
 
