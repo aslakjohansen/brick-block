@@ -56,7 +56,7 @@ for name in brick:
 ################################################################################
 ##################################################################### group ####
 
-# seq rotary heat exchanger namespace
+# demo namespace
 DEMO = Namespace('http://buildsys.org/ontologies/demo#')
 g.bind('demo', DEMO)
 
