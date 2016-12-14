@@ -164,9 +164,21 @@ def delete (g, group):
     r = g.query(q)
     inside = map(lambda row: row[0], r)
     
+    # generate mapping from entity to port
+    q = '''
+    SELECT DISTINCT ?entity ?port
+    WHERE {
+        ?entity rdf:type         ?port .
+        ?port   rdfs:subClassOf+ grp:Port .
+    }
+    '''
+    r = g.query(q)
+    entity2port = {}
+    for row in r:
+        entity2port[row[0]] = row[1]
+    
     # categorize edges
-    edges_in      = []
-    edges_out    = []
+    ports = {}
     edges_between = []
     for triplet in g:
         sub, pred, obj = triplet
@@ -175,23 +187,77 @@ def delete (g, group):
         
         if sub_inside and obj_inside:
             edges_between.append( triplet )
-        elif sub_inside:
-            edges_out.append( triplet )
-        elif obj_inside:
-            edges_in.append( triplet )
         else:
-            print('Error: Unable to categorize triplet (%s,%s,%s) while deleting group %s.'
-                  % (sub, pred, obj, group))
-            exit()
+            port_entity = sub if sub_inside else obj
+            
+            # guard: unknown port
+            if not port_entity in entity2port:
+                print('Error: Unable to look up port name for entity % while deleting group %s.'
+                      % (port_entity, group))
+                exit()
+            
+            port = entity2port[port_entity]
+            if not port in ports: ports[port] = {'in': [], 'out': []}
+            
+            if sub_inside:
+                ports[port]['out'].append( triplet )
+            elif obj_inside:
+                ports[port]['in'].append( triplet )
+            else:
+                print('Error: Unable to categorize triplet (%s,%s,%s) while deleting group %s.'
+                      % (sub, pred, obj, group))
+                exit()
     
     # remove internal edges
     for triplet in edges_between:
         g.remove(triplet)
     
-    # construct response
-    response = {
-        'in':  edges_in,
-        'out': edges_out,
-    }
-    return response
+    return ports
+
+def replace (g, group, filename, target_namespace, target_prefix):
+    '''
+    Replace a group in a graph with a new instance of a group template from
+    a file.
+    
+    Arguments:
+    g -- graph in which to perform the replacement
+    group -- group to remove
+    filename -- name of file containing the group template
+    target_namespace -- namespace to place new group instance in
+    target_prefix -- prefix to be used for namespace of new group instance
+    '''
+    
+    # delete
+    deleted = delete(g, group)
+    
+    # instantiate
+    g_inst = instantiate(filename, target_namespace, target_prefix)
+    g += g_inst
+    
+    # tie together
+    for port in deleted:
+        
+        # guard: unknown port
+        if not port in ginst['ports']:
+            print('Error: Unable to look up port "%s" in group instantitated from file %s during replacement.'
+                  % (port, filename))
+            exit()
+        
+        for direction in deleted[port]:
+            for sub, pred, obj in deleted[port][direction]:
+                port_entity = ginst['ports'][port]
+                
+                # update relevant end of edge
+                if  direction=='in':
+                    obj = port_entity
+                elif direction=='out':
+                    sub = port_entity
+                else:
+                    print('Error: Unknown direction "%s" for triplet while performing replacement.'
+                          % str(triplet))
+                    exit()
+                
+                # add edge
+                g.add( (sub, pred, obj) )
+    
 
