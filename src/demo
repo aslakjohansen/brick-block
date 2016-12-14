@@ -29,10 +29,12 @@ brick = {
 
 # guard: command line arguments
 if len(sys.argv)!=2:
-    print('Syntax: %s PATH_TO_BRICK' % sys.argv[0])
-    print('        %s ../../GroundTruth/Brick' % sys.argv[0])
+    print('Syntax: %s PATH_TO_BRICK PATH_TO_TTL_FILE' % sys.argv[0])
+    print('        %s ../../GroundTruth/Brick demo.ttl' % sys.argv[0])
+    print('        %s ../../GroundTruth/Brick demo_replaced.ttl' % sys.argv[0])
     exit(1)
 brickpath = sys.argv[1]
+filename  = sys.argv[2]
 
 # get started on the graph
 g = Graph()
@@ -59,7 +61,7 @@ for name in brick:
 ################################################################################
 ##################################################################### group ####
 
-g.parse('demo.ttl', format='turtle')
+g.parse(filename, format='turtle')
 
 ################################################################################
 ###################################################################### main ####
