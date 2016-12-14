@@ -74,7 +74,7 @@ WHERE {
 demo_group = list(g.query(q))[0][0]
 
 # replace that component
-group.replace(g, demo_group, 'demo.ttl', DEMO, 'replacement')
+group.replace(g, demo_group, 'passthrough.ttl', DEMO, 'replacement')
 
 # store result
 print('Number of relations: %u' % (len(g)))

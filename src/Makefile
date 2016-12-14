@@ -31,7 +31,8 @@ demo.ttl: generate_demo_setup brick_tbt_rotary_heat_exchanger.ttl
 demo.txt: demo demo.ttl
 	./demo ../../GroundTruth/Brick > demo.txt
 
-demo_replaced.ttl: generate_demo_replaced_setup demo.ttl
+demo_replaced.ttl: generate_demo_replaced_setup demo.ttl passthrough.ttl
+
 	./generate_demo_replaced_setup ../../GroundTruth/Brick
 
 passthrough.ttl: generate_passthrough

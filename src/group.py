@@ -240,7 +240,7 @@ def replace (g, group, filename, target_namespace, target_prefix):
     
     # instantiate
     g_inst = instantiate(filename, target_namespace, target_prefix)
-    g += g_inst
+    g += g_inst['graph']
     
     # tie together
     for port in deleted:
