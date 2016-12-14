@@ -22,6 +22,7 @@ def decompose (def_g, entity):
         if entity.startswith(path): paths.append((ns_prefix, path))
     if len(paths)!=1:
         sys.stderr.write('Error: "%s" decomposes into %u paths, not 1: %s\n' % (entity, len(paths), str(paths)))
+        exit()
     ns_prefix = paths[0][0]
     namespace = paths[0][1]
     name = entity[len(namespace):]
