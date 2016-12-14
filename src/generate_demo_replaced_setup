@@ -53,19 +53,13 @@ for name in brick:
     g.bind(brick[name]['prefix'], brick[name]['namespace'])
     globals()[name] = brick[name]['namespace']
 
-## demo
-#DEMO = Namespace('http://buildsys.org/ontologies/demo#')
-#g.bind('demo', DEMO)
-
 # rotary heat exchanger namespace
 RHX = Namespace('http://buildsys.org/ontologies/rotary_heat_exchanger#')
 g.bind('rhx', RHX)
 
 # load demo
 g.parse('demo.ttl', format='turtle')
-DEMO = g.namespace_manager.store.namespace('demo')
-print(DEMO)
-print(type(g.namespace_manager.store.namespace('demo')))
+DEMO = Namespace(g.namespace_manager.store.namespace('demo'))
 
 ################################################################################
 ###################################################################### main ####
@@ -78,12 +72,11 @@ WHERE {
 }
 '''
 demo_group = list(g.query(q))[0][0]
-print(demo_group)
 
 # replace that component
-group.replace(g, demo_group, 'passthrough.ttl', DEMO, 'replacement')
+group.replace(g, demo_group, 'demo.ttl', DEMO, 'replacement')
 
 # store result
 print('Number of relations: %u' % (len(g)))
-g.serialize('demo.ttl', 'turtle')
+g.serialize('demo_replaced.ttl', 'turtle')
 

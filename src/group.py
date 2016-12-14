@@ -158,9 +158,10 @@ def delete (g, group):
     q = '''
     SELECT DISTINCT ?entity
     WHERE {
-        ?entity grp:within+ %s .
+        ?entity grp:within+ "%s" .
     }
     ''' % group
+    print(q)
     r = g.query(q)
     inside = map(lambda row: row[0], r)
     
@@ -184,6 +185,10 @@ def delete (g, group):
         sub, pred, obj = triplet
         sub_inside = sub in inside
         obj_inside = obj in inside
+        print(triplet)
+        
+        # guard: triplet is outside
+        if not (sub_inside or obj_inside): continue
         
         if sub_inside and obj_inside:
             edges_between.append( triplet )
@@ -192,7 +197,7 @@ def delete (g, group):
             
             # guard: unknown port
             if not port_entity in entity2port:
-                print('Error: Unable to look up port name for entity % while deleting group %s.'
+                print('Error: Unable to look up port name for entity %s while deleting group %s.'
                       % (port_entity, group))
                 exit()
             
@@ -208,9 +213,13 @@ def delete (g, group):
                       % (sub, pred, obj, group))
                 exit()
     
-    # remove internal edges
+    # remove edges
     for triplet in edges_between:
         g.remove(triplet)
+    for port in ports:
+        for direction in ports[port]:
+            for triplet in ports[port][direction]:
+                g.remove(triplet)
     
     return ports
 

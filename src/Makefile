@@ -16,9 +16,6 @@ mrproper: clean
 brick_group.ttl: generate_group
 	./generate_group
 
-brick_passthrough.ttl: generate_passthrough
-	./generate_passthrough ../../GroundTruth/Brick
-
 brick_rotary_heat_exchanger.ttl: generate_rotary_heat_exchanger brick_group.ttl
 	./generate_rotary_heat_exchanger ../../GroundTruth/Brick
 
@@ -36,4 +33,7 @@ demo.txt: demo demo.ttl
 
 demo_replaced.ttl: generate_demo_replaced_setup demo.ttl
 	./generate_demo_replaced_setup ../../GroundTruth/Brick
+
+passthrough.ttl: generate_passthrough
+	./generate_passthrough ../../GroundTruth/Brick
 
