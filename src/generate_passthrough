@@ -1,0 +1,91 @@
+#!/usr/bin/env python3.5
+
+from rdflib import Graph, Namespace, URIRef, Literal
+import sys
+
+# parts of brick to load
+brick = {
+    'BRICK': {
+        'file': 'Brick.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/Brick#'),
+        'prefix': 'brick',
+    },
+    'BRICKFRAME': {
+        'file': 'BrickFrame.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/BrickFrame#'),
+        'prefix': 'bf',
+    },
+    'BRICKTAG': {
+        'file': 'BrickTag.ttl',
+        'namespace': Namespace('http://buildsys.org/ontologies/BrickTag#'),
+        'prefix': 'btag',
+    },
+}
+
+# guard: command line arguments
+if len(sys.argv)!=2:
+    print('Syntax: %s PATH_TO_BRICK' % sys.argv[0])
+    print('        %s ../../GroundTruth/Brick' % sys.argv[0])
+    exit(1)
+brickpath = sys.argv[1]
+
+# get started on the graph
+g = Graph()
+
+# general namespaces
+RDF   = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+RDFS  = Namespace('http://www.w3.org/2000/01/rdf-schema#')
+OWL   = Namespace('http://www.w3.org/2002/07/owl#')
+GROUP = Namespace('http://buildsys.org/ontologies/BrickGroup#')
+g.parse('brick_group.ttl', format='turtle')
+g.bind('rdf' , RDF)
+g.bind('rdfs', RDFS)
+g.bind('owl' , OWL)
+g.bind('grp' , GROUP)
+
+# brick namespace
+for name in brick:
+    g.parse('%s/%s' % (brickpath, brick[name]['file']), format='turtle')
+    g.bind(brick[name]['prefix'], brick[name]['namespace'])
+    globals()[name] = brick[name]['namespace']
+
+# rotary heat exchanger namespace
+PT = Namespace('http://buildsys.org/ontologies/passthrough#')
+g.bind('pt', PT)
+
+# generate classes
+class_group   = PT['Passthrough']
+class_port_pi = PT['Primary_Input']
+class_port_po = PT['Primary_Output']
+class_port_si = PT['Secondary_Input']
+class_port_so = PT['Secondary_Output']
+g.add( (class_group  , RDFS.subClassOf, GROUP.Group) )
+g.add( (class_port_pi, RDFS.subClassOf, GROUP.Port) )
+g.add( (class_port_po, RDFS.subClassOf, GROUP.Port) )
+g.add( (class_port_si, RDFS.subClassOf, GROUP.Port) )
+g.add( (class_port_so, RDFS.subClassOf, GROUP.Port) )
+
+# generate group
+group   = PT['group']
+port_pi = PT['ports/pi']
+port_po = PT['ports/po']
+port_si = PT['ports/si']
+port_so = PT['ports/so']
+g.add( (group  , RDF.type, class_group) )
+g.add( (port_pi, RDF.type, class_port_pi) )
+g.add( (port_po, RDF.type, class_port_po) )
+g.add( (port_si, RDF.type, class_port_si) )
+g.add( (port_so, RDF.type, class_port_so) )
+
+# generate contents
+g.add( (port_pi, BRICKFRAME.feeds, port_po) )
+g.add( (port_si, BRICKFRAME.feeds, port_so) )
+
+# generate grouping relationships
+for entity in [port_pi, port_po, port_si, port_so]:
+    g.add( (entity, GROUP.within, group) )
+
+# store result
+print('Number of relations: %u' % (len(g)))
+g.serialize('passthrough.ttl', 'turtle')
+
