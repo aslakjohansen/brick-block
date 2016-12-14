@@ -161,7 +161,6 @@ def delete (g, group):
         ?entity grp:within+ "%s" .
     }
     ''' % group
-    print(q)
     r = g.query(q)
     inside = map(lambda row: row[0], r)
     
@@ -185,7 +184,6 @@ def delete (g, group):
         sub, pred, obj = triplet
         sub_inside = sub in inside
         obj_inside = obj in inside
-        print(triplet)
         
         # guard: triplet is outside
         if not (sub_inside or obj_inside): continue
