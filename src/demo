@@ -28,7 +28,7 @@ brick = {
 }
 
 # guard: command line arguments
-if len(sys.argv)!=2:
+if len(sys.argv)!=3:
     print('Syntax: %s PATH_TO_BRICK PATH_TO_TTL_FILE' % sys.argv[0])
     print('        %s ../../GroundTruth/Brick demo.ttl' % sys.argv[0])
     print('        %s ../../GroundTruth/Brick demo_replaced.ttl' % sys.argv[0])
