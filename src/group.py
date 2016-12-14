@@ -139,4 +139,59 @@ def instantiate (filename, target_namespace, target_prefix):
         'group': outer_group,
     }
 
+def delete (g, group):
+    '''
+    Remove a group from a graph, including everything within it and edges to
+    its ports.
+    
+    Arguments:
+    g -- the graph to slim down
+    group -- the group to remove
+    
+    It will return a dictionary mapping each port type of the group to a
+    dictionary containing two entries:
+    in -- a list of removed incoming edges
+    out -- a list of removed outgoing edges
+    '''
+    
+    # find inside entities
+    q = '''
+    SELECT DISTINCT ?entity
+    WHERE {
+        ?entity grp:within+ %s .
+    }
+    ''' % group
+    r = g.query(q)
+    inside = map(lambda row: row[0], r)
+    
+    # categorize edges
+    edges_in      = []
+    edges_out    = []
+    edges_between = []
+    for triplet in g:
+        sub, pred, obj = triplet
+        sub_inside = sub in inside
+        obj_inside = obj in inside
+        
+        if sub_inside and obj_inside:
+            edges_between.append( triplet )
+        elif sub_inside:
+            edges_out.append( triplet )
+        elif obj_inside:
+            edges_in.append( triplet )
+        else:
+            print('Error: Unable to categorize triplet (%s,%s,%s) while deleting group %s.'
+                  % (sub, pred, obj, group))
+            exit()
+    
+    # remove internal edges
+    for triplet in edges_between:
+        g.remove(triplet)
+    
+    # construct response
+    response = {
+        'in':  edges_in,
+        'out': edges_out,
+    }
+    return response
 
