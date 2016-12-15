@@ -20,9 +20,18 @@ def decompose (def_g, entity):
     paths = []
     for (ns_prefix, path) in def_g.namespace_manager.namespaces():
         if entity.startswith(path): paths.append((ns_prefix, path))
+    if len(paths)==0:
+        path = entity.split('#')[0]+'#' # TODO: is this correct?
+        ns_prefix = 'missing'
+        namespaces = def_g.namespace_manager.namespaces()
+        while len(list(filter(lambda entry: entry[0]==ns_prefix, namespaces)))>0:
+            ns_prefix += '_'
+        sys.stderr.write('Warning: Missing namespace for "%s". Assigning the following mapping:\n' % entity)
+        sys.stderr.write('  %s ↦ %s\n' % (ns_prefix, path))
+        def_g.bind(ns_prefix, Namespace(path))
+        paths.append((ns_prefix, path))
     if len(paths)!=1:
-        sys.stderr.write('Error: "%s" decomposes into %u paths, not 1: %s\n' % (entity, len(paths), str(paths)))
-        exit()
+        sys.stderr.write('Warning: "%s" decomposes into %u paths, not 1: %s\n' % (entity, len(paths), str(paths)))
     ns_prefix = paths[0][0]
     namespace = paths[0][1]
     name = entity[len(namespace):]
@@ -159,11 +168,13 @@ def delete (g, group):
     q = '''
     SELECT DISTINCT ?entity
     WHERE {
-        ?entity grp:within+ "%s" .
+        ?entity grp:within+ <%s> .
     }
     ''' % group
     r = g.query(q)
-    inside = map(lambda row: row[0], r)
+    inside = list(map(lambda row: row[0], r))
+    print(q)
+    print(len(inside))
     
     # generate mapping from entity to port
     q = '''
@@ -176,13 +187,16 @@ def delete (g, group):
     r = g.query(q)
     entity2port = {}
     for row in r:
-        entity2port[row[0]] = row[1]
+        portname = decompose(g, row[1])[1]
+        entity2port[row[0]] = portname
+    print(entity2port)
     
     # categorize edges
     ports = {}
     edges_between = []
     for triplet in g:
         sub, pred, obj = triplet
+#        print('sub=%s/%s inside[0]=%s/%s' % (sub, type(sub), inside[0], type(inside[0])))
         sub_inside = sub in inside
         obj_inside = obj in inside
         
@@ -193,12 +207,15 @@ def delete (g, group):
             edges_between.append( triplet )
         else:
             port_entity = sub if sub_inside else obj
+            print('sub[%s:%s] %s obj[%s:%s]' % (sub_inside, sub in entity2port, pred, obj_inside, obj in entity2port))
             
             # guard: unknown port
             if not port_entity in entity2port:
-                print('Error: Unable to look up port name for entity %s while deleting group %s.'
-                      % (port_entity, group))
-                exit()
+                g.remove(triplet)
+                continue
+#                print('Error: Unable to look up port name for entity %s while deleting group %s.'
+#                      % (port_entity, group))
+#                exit()
             
             port = entity2port[port_entity]
             if not port in ports: ports[port] = {'in': [], 'out': []}
@@ -215,10 +232,12 @@ def delete (g, group):
     # remove edges
     for triplet in edges_between:
         g.remove(triplet)
+        print('A removing %s' % str(triplet))
     for port in ports:
         for direction in ports[port]:
             for triplet in ports[port][direction]:
                 g.remove(triplet)
+                print('B removing %s' % str(triplet))
     
     return ports
 
@@ -246,14 +265,14 @@ def replace (g, group, filename, target_namespace, target_prefix):
     for port in deleted:
         
         # guard: unknown port
-        if not port in ginst['ports']:
+        if not port in g_inst['ports']:
             print('Error: Unable to look up port "%s" in group instantitated from file %s during replacement.'
                   % (port, filename))
             exit()
         
         for direction in deleted[port]:
             for sub, pred, obj in deleted[port][direction]:
-                port_entity = ginst['ports'][port]
+                port_entity = g_inst['ports'][port]
                 
                 # update relevant end of edge
                 if  direction=='in':

@@ -72,6 +72,7 @@ WHERE {
 }
 '''
 demo_group = list(g.query(q))[0][0]
+print(demo_group)
 
 # replace that component
 group.replace(g, demo_group, 'passthrough.ttl', DEMO, 'replacement')
