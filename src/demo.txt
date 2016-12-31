@@ -2,13 +2,13 @@ Demo 1: sensors which are fed by a temperature sensor
  (1) "http://buildsys.org/ontologies/Brick#Humidity_Sensor" http://buildsys.org/ontologies/demo#sensor_po
 
 Demo 2: types of groups which are fed by a temperature sensor
- (1) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
- (2) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
- (3) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
- (4) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
- (5) "http://buildsys.org/ontologies/tbt_rotary_heat_exchanger#TwoByTwo_Heat_Exchanger_Sequence" http://buildsys.org/ontologies/demo#exchanger_complex/group
- (6) "http://buildsys.org/ontologies/seq_rotary_heat_exchanger#Rotary_Heat_Exchanger_Sequence" http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/group
- (7) "http://buildsys.org/ontologies/seq_rotary_heat_exchanger#Rotary_Heat_Exchanger_Sequence" http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/group
+ (1) "http://buildsys.org/ontologies/tbt_rotary_heat_exchanger#TwoByTwo_Heat_Exchanger_Sequence" http://buildsys.org/ontologies/demo#exchanger_complex/group
+ (2) "http://buildsys.org/ontologies/seq_rotary_heat_exchanger#Rotary_Heat_Exchanger_Sequence" http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/group
+ (3) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
+ (4) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
+ (5) "http://buildsys.org/ontologies/seq_rotary_heat_exchanger#Rotary_Heat_Exchanger_Sequence" http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/group
+ (6) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
+ (7) "http://buildsys.org/ontologies/rotary_heat_exchanger#Rotary_Heat_Exchanger" http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
 
 Demo 3: which sensors affects the flow sensor
  (1) "http://buildsys.org/ontologies/Brick#Temperature_Sensor" http://buildsys.org/ontologies/demo#sensor_pi
@@ -19,20 +19,20 @@ Demo 4: find rotary heat exchangers in sequence
  (2) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
 
 Demo 5: find rotary heat exchangers in parallel (this will take time)
- (1) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
- (2) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
- (3) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
- (4) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
- (5) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
- (6) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
- (7) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
- (8) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
- (9) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
+ (1) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
+ (2) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
+ (3) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
+ (4) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
+ (5) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
+ (6) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
+ (7) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
+ (8) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
+ (9) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
  (10) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
- (11) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
- (12) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
- (13) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group
- (14) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
- (15) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group
+ (11) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
+ (12) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group
+ (13) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
+ (14) http://buildsys.org/ontologies/demo#exchanger_complex/rhe1/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
+ (15) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe1/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
  (16) http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group -> http://buildsys.org/ontologies/demo#exchanger_complex/rhe2/rhe2/group
 

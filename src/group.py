@@ -257,6 +257,7 @@ def replace (g, group, filename, target_namespace, target_prefix):
     
     # delete
     deleted = delete(g, group)
+    return
     
     # instantiate
     print('instantiate(%s, %s, %s)' % (filename, target_namespace, target_prefix))

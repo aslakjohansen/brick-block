@@ -89,7 +89,7 @@ WHERE {
 '''
 result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
-    print(' - "%s" %s' % (i+1, result[i][0], result[i][1]))
+    print(' - "%s" %s' % (result[i][0], result[i][1]))
 print('Total: %u' % len(result))
 print('')
 
@@ -108,7 +108,7 @@ WHERE {
 '''
 result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
-    print(' - "%s" %s' % (i+1, result[i][0], result[i][1]))
+    print(' - "%s" %s' % (result[i][0], result[i][1]))
 print('Total: %u' % len(result))
 print('')
 
@@ -126,7 +126,7 @@ WHERE {
 '''
 result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
-    print(' - "%s" %s' % (i+1, result[i][0], result[i][1]))
+    print(' - "%s" %s' % (result[i][0], result[i][1]))
 print('Total: %u' % len(result))
 print('')
 
@@ -154,7 +154,7 @@ WHERE {
 '''
 result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
-    print(' - %s -> %s' % (i+1, result[i][0], result[i][1]))
+    print(' - %s -> %s' % (result[i][0], result[i][1]))
 print('Total: %u' % len(result))
 print('')
 
@@ -196,7 +196,7 @@ WHERE {
 '''
 result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
-    print(' - %s -> %s' % (i+1, result[i][0], result[i][1]))
+    print(' - %s -> %s' % (result[i][0], result[i][1]))
 print('Total: %u' % len(result))
 print('')
 
