@@ -58,6 +58,17 @@ for name in brick:
     g.bind(brick[name]['prefix'], brick[name]['namespace'])
     globals()[name] = brick[name]['namespace']
 
+# for easily comparable results
+def tripletsorted (triplets):
+    return sorted(sorted(sorted(triplets,
+                                key=lambda triplet: triplet[0]),
+                         key=lambda triplet: triplet[1]),
+                  key=lambda triplet: triplet[2])
+def duetsorted (triplets):
+    return sorted(sorted(triplets,
+                         key=lambda triplet: triplet[0]),
+                  key=lambda triplet: triplet[1])
+
 ################################################################################
 ##################################################################### group ####
 
@@ -76,7 +87,7 @@ WHERE {
     ?sensor_type rdfs:subClassOf+ brick:Sensor
 }
 '''
-result = list(g.query(q))
+result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
     print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
 print('')
@@ -94,7 +105,7 @@ WHERE {
     ?group rdf:type ?group_type
 }
 '''
-result = list(g.query(q))
+result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
     print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
 print('')
@@ -111,7 +122,7 @@ WHERE {
     ?sensor_type rdfs:subClassOf+ brick:Sensor
 }
 '''
-result = list(g.query(q))
+result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
     print(' (%u) "%s" %s' % (i+1, result[i][0], result[i][1]))
 print('')
@@ -138,7 +149,7 @@ WHERE {
     ?rhx2so bf:feeds+ ?rhx1si
 }
 '''
-result = list(g.query(q))
+result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
     print(' (%u) %s -> %s' % (i+1, result[i][0], result[i][1]))
 print('')
@@ -179,7 +190,7 @@ WHERE {
     ?rhx2so    bf:feeds+ ?common_so
 }
 '''
-result = list(g.query(q))
+result = duetsorted(list(g.query(q)))
 for i in range(len(result)):
     print(' (%u) %s -> %s' % (i+1, result[i][0], result[i][1]))
 print('')

@@ -172,7 +172,7 @@ def delete (g, group):
     }
     ''' % group
     r = g.query(q)
-    inside = list(map(lambda row: row[0], r))
+    inside = list(map(lambda row: row[0], r)) + [group]
     print(q)
     print(len(inside))
     
@@ -238,6 +238,7 @@ def delete (g, group):
             for triplet in ports[port][direction]:
                 g.remove(triplet)
                 print('B removing %s' % str(triplet))
+                if triplet in g: print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     
     return ports
 
@@ -258,8 +259,10 @@ def replace (g, group, filename, target_namespace, target_prefix):
     deleted = delete(g, group)
     
     # instantiate
+    print('instantiate(%s, %s, %s)' % (filename, target_namespace, target_prefix))
     g_inst = instantiate(filename, target_namespace, target_prefix)
     g += g_inst['graph']
+    print(g_inst['ports'])
     
     # tie together
     for port in deleted:
@@ -281,10 +284,11 @@ def replace (g, group, filename, target_namespace, target_prefix):
                     sub = port_entity
                 else:
                     print('Error: Unknown direction "%s" for triplet while performing replacement.'
-                          % str(triplet))
+                          % str(sub, pred, obj))
                     exit()
                 
                 # add edge
-                g.add( (sub, pred, obj) )
+                print('add(%s, %s, %s)' % (sub, pred, obj) )
+#                g.add( (sub, pred, obj) )
     
 
